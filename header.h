@@ -1,6 +1,8 @@
 #ifndef header_H
 #define header_H
 #include "boolean.h"
+#include <stdio.h>
+#include <stdlib.h>
 #define Nil NULL
 #define Info(P) (P)->info
 #define Next(P) (P)->next
@@ -9,46 +11,35 @@
 #define Beli(P) (P)->hargaBeli
 #define Jual(P) (P)->hargaJual
 #define Keuntungan(P) (P)->keuntungan
-#define Left(Q) (Q)->left
-#define Right(Q) (Q)->right
-#define InfoTree(Q) (Q)->infoTree
 #define First(L) (L).First
-
-// KAMUS DATA GLOBAL
+#define Left(P) (P)->left
+#define Right(P) (P)->right
+#define InfoTree(P) (P)->infoTree
 
 typedef char* value;
-
 typedef struct element *address;
+
+// LIST PERSEDIAAN BARANG
 typedef struct element{
-	value info[100];
+	value info[50];
 	int kodeMasuk;
 	int stok;
 	int hargaBeli;
 	int hargaJual;
 	int keuntungan;
 	address next;
-}Barang; 
+}persediaanBarang;
 
 typedef struct element1{
 	address First;
 }List;
 
-typedef struct element2{
-	Barang daftar;
-}DaftarBarang;
-
-typedef struct element3{
-	address FirstTree;
-}ListTree;
-
-typedef struct element4 *addressTree;
-typedef struct element4{
-	addressTree left;
-	Barang infoTree;
-	addressTree right;
-}Tree;
-
-// MODUL
+typedef struct NBtree *addressTree;
+typedef struct NBtree
+{ 
+	List infoTree;
+	addressTree left, right;
+}nbtree;
 
 boolean IsEmpty (List L);
 
@@ -61,5 +52,14 @@ void InsertNode(List *L);
 void InsertLast(List *L, address P);
 
 void PrintInfo(List L);
+
+void DeleteAll(List *L);
+
+int CountNode(List L);
+
+boolean IsEmptyTree(addressTree root);
+
+void CreateTree(addressTree *root, List L);
+
 
 #endif
