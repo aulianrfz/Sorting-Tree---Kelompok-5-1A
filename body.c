@@ -4,8 +4,7 @@
 #include <string.h>
 #include "header.h"
 
-boolean IsEmpty(List L)
-{
+boolean IsEmpty(List L){
 	if (First(L) == Nil)
 	{
 		return true;
@@ -19,6 +18,11 @@ boolean IsEmpty(List L)
 void CreateList(List *L)
 {
 	First(*L) = Nil;
+}
+
+void CreateListTree(Tree *T)
+{
+	FirstTree(*T) = Nil;
 }
 
 address Alokasi()
@@ -79,6 +83,43 @@ void PrintInfo(List L)
 	else /* List memiliki elemen */
 	{
 		P = First(L);
+		while (P != Nil)
+		{
+			if (P == Nil)
+			{
+				printf("\n");
+				break;
+			}
+			else /* Belum berada di akhir List */
+			{
+				Kode(P) = masuk;
+				printf("#Kode Masuk\t: %d\n", Kode(P));
+				printf("Nama barang\t: %s\n", Info(P));
+				printf("Jumlah stok\t: %d\n", Stok(P));
+				printf("Harga beli\t: Rp. %d\n", Beli(P));
+				printf("Harga jual\t: Rp. %d\n", Jual(P));
+				printf("Keuntungan\t: Rp. %d\n", Keuntungan(P));\
+				P = Next(P);
+			}
+			printf("\n");
+			masuk++;
+		}
+	}
+}
+
+void PrintInfoTree(addressTree *root, List L)
+{
+	/* Kamus Lokal */
+	address P;
+	int masuk = 1;
+	/* Algoritma */
+	if (First(L) == Nil)
+	{
+		printf("List Kosong .... \a\n");
+	}
+	else /* List memiliki elemen */
+	{
+		P = First(L);
 		for (;;)
 		{
 			if (P == Nil)
@@ -103,21 +144,6 @@ void PrintInfo(List L)
 	}
 }
 
-void DeleteAll(List *L)
-{
-    /* Kamus Lokal */
-    address P, Q;
-    /* Algoritma */
-    P = First(*L);
-    while (P != Nil)
-    {
-        Q = P;
-        P = Next(P);
-        free(Q);
-    }
-    First(*L) = Nil;
-}
-
 int CountNode(List L) {
     int count;
     address P;
@@ -127,10 +153,11 @@ int CountNode(List L) {
         	count++;
         	P = Next(P);
     	}
-    	return count;
+    return count;
 }	
 
 boolean IsEmptyTree(addressTree root)
+/* Mengirimkan true jika Isi_Tree KOSONG */
 {
     if (root == NULL)
     {
@@ -142,19 +169,48 @@ boolean IsEmptyTree(addressTree root)
     }
 }
 
-void CreateTree(addressTree *root, List L){
-	*root = NULL;
-	*root = (address)malloc(sizeof(nbtree));
-	if(IsEmpty(L) == false){
-		InfoTree(*root) = L;
-		Left(*root) = NULL;
-		Right(*root) = NULL;
-		if (IsEmptyTree(*root) == false){
-			printf("\nIsi tree : \n\n");
-			PrintInfo(L);
-		}	
+addressTree CreateTree(List *L)
+{
+	/* Kamus Lokal */
+	addressTree root;
+	/* Algoritma */
+	root = (addressTree)malloc(sizeof(nbtree));
+	if(IsEmpty(*L) == false)
+	{
+		InfoTree(root) = *L;
+		Left(root) = NULL;
+		Right(root) = NULL;
+//		if (IsEmptyTree(root) == false){
+//			printf("\nIsi tree : \n\n");
+//			PrintInfo(*L);
+//		}	
 	}
 	else{
 		printf("Isi tree kosong...");
 	}
+	return(root);
 }
+
+void SeparateNode(List *L, List *bagian2)
+{
+	address slow, fast;
+	
+	slow = First(*L);
+    fast = First(*L)->next;
+
+    while (fast != NULL) {
+        fast = fast->next;
+        if (fast != NULL) {
+            slow = slow->next;
+            fast = fast->next;
+        }
+    }
+	
+    First(*bagian2) = slow->next;
+    slow->next = NULL; 		
+}
+
+
+
+
+

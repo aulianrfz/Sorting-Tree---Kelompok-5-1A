@@ -12,9 +12,10 @@
 #define Jual(P) (P)->hargaJual
 #define Keuntungan(P) (P)->keuntungan
 #define First(L) (L).First
-#define Left(P) (P)->left
-#define Right(P) (P)->right
-#define InfoTree(P) (P)->infoTree
+#define Left(Q) (Q)->left
+#define Right(Q) (Q)->right
+#define InfoTree(Q) (Q)->infoTree
+#define FirstTree(T) (T).FirstTree
 
 typedef char* value;
 typedef struct element *address;
@@ -41,23 +42,28 @@ typedef struct NBtree
 	addressTree left, right;
 }nbtree;
 
+typedef struct element2{
+	addressTree FirstTree;
+}Tree;
+
 boolean IsEmpty (List L);
 
-void CreateList (List * L);
+void CreateList (List * L); //
 
 address Alokasi ();
 
 void InsertNode(List *L);
 
-void PrintInfo(List L);
+void InsertLast(List *L, address P);
 
-void DeleteAll(List *L);
+void PrintInfo(List L);
 
 int CountNode(List L);
 
 boolean IsEmptyTree(addressTree root);
 
-void CreateTree(addressTree *root, List L);
+addressTree CreateTree(List *L);
 
+void SeparateNode(List *L, List *bagian2);
 
 #endif
