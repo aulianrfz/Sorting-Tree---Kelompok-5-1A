@@ -47,31 +47,22 @@ void InsertNode(List *L)
 {
 	/* Kamus Lokal */
 	address P;
+	address Last;
 	/* Algoritma */
 	P = Alokasi();
 	if (P != Nil)
 	{
-		InsertLast(&(*L), P);
-	}
-}
-
-void InsertLast(List *L, address P)
-{
-	/* Kamus Lokal */
-	address Last;
-	/* Algoritma */
-	if (First(*L) != Nil)
-	{
-		Last = First(*L);
-		while (Next(Last) != Nil)
-		{
-			Last = Next(Last);
+		if (First(*L) != Nil){
+			Last = First(*L);
+			while (Next(Last) != Nil){
+				Last = Next(Last);
+			}
+			Next(Last) = P;
 		}
-		Next(Last) = P;
-	}
-	else
-	{
-		First(*L) = P;
+		else
+		{
+			First(*L) = P;
+		}
 	}
 }
 
@@ -140,7 +131,6 @@ int CountNode(List L) {
 }	
 
 boolean IsEmptyTree(addressTree root)
-/* Mengirimkan true jika Isi_Tree KOSONG */
 {
     if (root == NULL)
     {
@@ -168,4 +158,3 @@ void CreateTree(addressTree *root, List L){
 		printf("Isi tree kosong...");
 	}
 }
-

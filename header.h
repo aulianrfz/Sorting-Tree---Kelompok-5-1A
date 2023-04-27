@@ -49,8 +49,6 @@ address Alokasi ();
 
 void InsertNode(List *L);
 
-void InsertLast(List *L, address P);
-
 void PrintInfo(List L);
 
 void DeleteAll(List *L);
