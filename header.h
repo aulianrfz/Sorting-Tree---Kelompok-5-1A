@@ -16,6 +16,7 @@
 #define Right(Q) (Q)->right
 #define InfoTree(Q) (Q)->infoTree
 #define FirstTree(T) (T).FirstTree
+#define MAX_SIZE 100
 
 typedef char* value;
 typedef struct element *address;
@@ -48,13 +49,11 @@ typedef struct element2{
 
 boolean IsEmpty (List L);
 
-void CreateList (List * L); //
+void CreateList (List * L); 
 
 address Alokasi ();
 
 void InsertNode(List *L);
-
-void InsertLast(List *L, address P);
 
 void PrintInfo(List L);
 
@@ -65,5 +64,7 @@ boolean IsEmptyTree(addressTree root);
 addressTree CreateTree(List *L);
 
 void SeparateNode(List *L, List *bagian2);
+
+void SeparateTree(addressTree *root);
 
 #endif

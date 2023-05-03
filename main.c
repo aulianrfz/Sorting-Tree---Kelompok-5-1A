@@ -4,13 +4,12 @@
 
 int main()
 {
-	/* Kamus Lokal */
 	List stokBarang, second_half, three_half, four_half;
 	
 	int pilihan, jumlahnode;
 	addressTree root = NULL;
 	addressTree anak1, anak2;
-	/* Program */
+
 	CreateList(&stokBarang);
 
 	while (true){
@@ -57,53 +56,10 @@ int main()
 			system("cls");
 			break;
 		case 4 :
-			// Masih bisa dilakukan jika inputan 4 barang, belum dijadikan modul
-			
 			root = CreateTree(&stokBarang);
-			
-			printf("\nSebelum di pisah: \n");
 			PrintInfo(stokBarang);
-			
-			jumlahnode = CountNode(stokBarang);
-    			
-			First(second_half) = Nil;
-			SeparateNode(&stokBarang, &second_half);
-			anak1 = CreateTree(&stokBarang);
-			anak2 = CreateTree(&second_half);
-    		root->left = anak1;
-    		root->right = anak2;
-    		
-    		jumlahnode = CountNode(stokBarang);
-    		
-    		First(three_half) = Nil;
-			SeparateNode(&stokBarang, &three_half);
-			
-    		anak1 = CreateTree(&stokBarang);
-    		anak2 = CreateTree(&three_half);
-    		root->left->left = anak1;
-    		root->left->right = anak2;
-    		
-    		First(four_half) = Nil;
-			SeparateNode(&second_half, &four_half);
-			
-    		anak1 = CreateTree(&second_half);
-    		anak2 = CreateTree(&four_half);
-    		root->right->left = anak1;
-    		root->right->right = anak2;
-    		
-    		printf("\nSetelah di pisah: \n");
-    		printf("kesatu: ");
-    		PrintInfo(stokBarang);
-
-    		printf("kedua: ");
-    		PrintInfo(three_half);
-    		
-    		printf("ketiga: ");
-    		PrintInfo(second_half);
-
-    		printf("keempat: ");
-    		PrintInfo(four_half);
-				
+			printf("Postorder traversal: ");
+    		SeparateTree(&root);				
 			getchar();
 			system("cls");
 			break;
