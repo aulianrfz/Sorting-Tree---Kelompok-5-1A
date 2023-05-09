@@ -32,6 +32,15 @@ typedef struct element{
 	address next;
 }persediaanBarang;
 
+typedef struct element3{
+	value info[50];
+	int kodeMasuk;
+	int stok;
+	int hargaBeli;
+	int hargaJual;
+	int keuntungan;
+}array;
+
 typedef struct element1{
 	address First;
 }List;
@@ -47,24 +56,34 @@ typedef struct element2{
 	addressTree FirstTree;
 }Tree;
 
+/* Mengecek node linked list kosong atau tidak*/
 boolean IsEmpty (List L);
 
+/* Membuat list yang menunjuk pada node linked list*/
 void CreateList (List * L); 
 
-address Alokasi ();
+/* Alokasi node linked list*/
+address AlokasiNode ();
 
+/* Insert node linked list */
 void InsertNode(List *L);
 
+/* Print isi linked list */
 void PrintInfo(List L);
 
+/* Menghitung jumlah node linked list */
 int CountNode(List L);
 
+/* Mengecek tree kosong atau tidak */
 boolean IsEmptyTree(addressTree root);
 
+/* Membuat node tree */
 addressTree CreateTree(List *L);
 
+/* Membagi dua node linked list */
 void SeparateNode(List *L, List *bagian2);
 
+/* Membuat node tree dari hasil pemisahan node linked list*/
 void SeparateTree(addressTree *root);
 
 #endif
