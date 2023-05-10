@@ -225,6 +225,7 @@ void SeparateTree(addressTree *root) {
 	top = -1;
     prev = *root;
     still = *root;
+    
     do {	
 		if(top != -1){
 			top--;
@@ -243,11 +244,6 @@ void SeparateTree(addressTree *root) {
         while (top != -1 && (stack[top]->right == NULL || stack[top]->right == prev)) {
         	if(stack[top]->right != prev){
 			prev = stack[top--];
-//			priv = stack[top];
-//	        chick = priv->infoTree;
-//	        izi = First(chick);
-//	        itung = CountNode(chick);
-//	        printf("\nSTACK SAAT INI TENGAH : %d", itung);
             check = prev->infoTree;
             isi = First(check);
             if(isi != Nil){
@@ -258,10 +254,6 @@ void SeparateTree(addressTree *root) {
 					SeparateNode(&check, &bagian);
 					anak1 = CreateTree(&check);
 					anak2 = CreateTree(&bagian);
-//					if(top == 0)
-//    				{
-//    					last = still;
-//					}
     				last->left = anak1;
     				last->right = anak2;
     				*root = last;
@@ -299,11 +291,6 @@ void SeparateTree(addressTree *root) {
     			prev = stack[top--];
 			}
     }
-//        check1 = stack[top];
-//        check2 = check1->infoTree;
-//        check3 = First(check2);
-//        printf("stack terakhir : %s ", check3->info );
-        
         if (top != -1) {
 			priv = stack[top];
 	        chick = priv->infoTree;
@@ -311,34 +298,11 @@ void SeparateTree(addressTree *root) {
 	        printf("\nSTACK SAAT INI BAWAH : %d", itung);
 			*root = stack[top]->right;
 			printf("\ntop TENGAH %d", top);
-			//stack[top--];
         }
         printf("\ntop AKHIR %d", top);
         
         
     } while (top != -1);
-    
-//    *root = still;
-//	prev = NULL;
-//    do {
-//        while (*root != NULL) {
-//            stack[++top] = root;
-//            *root = (*root)->left;
-//        }
-//        
-//        
-//        while (top != -1 && (stack[top]->right == NULL || stack[top]->right == prev)) {
-//            prev = stack[top--];
-//            check = prev->infoTree;
-//            isi = First(check);
-//            printf("%s ", isi->info);
-//            
-//        }
-//        if (top != -1) {
-//            root = stack[top]->right;
-//        }
-//    } while (top != -1);
-    
     
     int i;
     prev = Nil;
@@ -346,16 +310,19 @@ void SeparateTree(addressTree *root) {
     *root = still;
     boolean stop;
     stop = true;
-  //  prev = *root;
-    do {	
-		if(top != -1){
+  do{
+	do {	
+		if(top == 0 && last == *root)
+		{
+			top--;
+		}
+		if(last == still){
 			top--;
 			stop = false;
-		}
+		} 
 		while (*root != NULL) 
 		{
             stack[++top] = *root;
-//			last = *root;
             *root = (*root)->left;
         }
         while (top != -1 && (stack[top]->right == NULL || stack[top]->right == prev)) {
@@ -363,10 +330,6 @@ void SeparateTree(addressTree *root) {
             check = prev->infoTree;
             isi = First(check);
 			count = CountNode(check);
-//			priv = stack[top];
-//	        chick = priv->infoTree;
-//	        itung = CountNode(chick);
-//	        printf("\nSTACK SAAT INI : %d", itung);
 			if (count == 1){
 //				max[i].info = isi->info;
 //				printf("\ninfo : %s ", max[i].info);
@@ -380,15 +343,10 @@ void SeparateTree(addressTree *root) {
 		}
 		if (top != -1) {
 			*root = stack[top]->right;
+			last = still;
         }
 	} while (stop == true);
 
-    printf("\nTOP ARRAY %d", top);	
-    priv = stack[top];
-	chick = priv->infoTree;
-	itung = CountNode(chick);
-	printf("\nSTACK ARRAY SAAT INI : %d", itung);
-	
 	i = 0;
 	int hitungArray;
 	hitungArray = 0;
@@ -402,7 +360,6 @@ void SeparateTree(addressTree *root) {
 	// BESAR KE KECIL
 	for (i = 0; i <= hitungArray-1; i++) {
         if (max[i+1].stok > max[i].stok) {
-            // Swap arr[j] and arr[j+1]
             temp = max[i].stok;
         	max[i].stok = max[i+1].stok;
             max[i+1].stok = temp;
@@ -449,140 +406,13 @@ void SeparateTree(addressTree *root) {
 	}
 	
 	PrintInfo(newNode);
-}
+	i = 0;
+	stop = true;
+	last = *root;
 
-//void SeparateTree(addressTree *root) {
-//    addressTree stack[MAX_SIZE], last, still, anak1, anak2, prev ,priv;
-//    List check, bagian, chick;
-//
-//	array temp[MAX_SIZE], max[MAX_SIZE];
-//    
-//    address isi, izi;
-//    int count, top, itung;
-//    
-//    int i;
-//    
-//    if (*root == Nil) {
-//        return;
-//    }
-//    
-//	top = -1;
-//    prev = Nil;
-//    still = *root;
-//    do {	
-//		while (*root != NULL) 
-//		{
-//            stack[++top] = *root;
-//            stack[++top] = *root;
-//			last = *root;
-//            *root = (*root)->left;
-//        }
-//        
-//        while (top != -1 && (stack[top]->right == NULL || stack[top]->right == prev)) {
-//			if(stack[top]->right != prev){
-//				prev = stack[top--];
-//	            count = CountNode(check);
-//	            isi = First(check);
-//	            if(isi != Nil){
-//	            	count = CountNode(check);
-//	            	if (count != 1)
-//	            	{
-//	            		CreateList(&bagian);
-//						SeparateNode(&check, &bagian);
-//						anak1 = CreateTree(&check);
-//						anak2 = CreateTree(&bagian);
-//						if(top == 0)
-//	    				{
-//	    					last = still;
-//						}
-//	    				last->left = anak1;
-//	    				addressTree tunjuk;
-//	    				List coba;
-//	    				address nama;
-//	    				tunjuk = last->left;
-//	            		coba = tunjuk->infoTree;
-//	            		nama = First(coba);
-//	            		while(nama!= Nil){
-//	            			printf("\nKIRI isi node : %s", nama->info);
-//	            			nama = nama->next;
-//						}
-//	            		//printf("\nisi node : %s", nama->info);
-//	    				last->right = anak2;
-//	    					    				tunjuk = last->right;
-//	            		coba = tunjuk->infoTree;
-//	            		nama = First(coba);
-//	            		while(nama!= Nil){
-//	            			printf("\nKANAN isi node : %s", nama->info);
-//	            			nama = nama->next;
-//						}
-//	    				*root = last;
-//	    				last = last->left;
-//	    				printf("\n===================================\n");
-//	    				printf("First half: ");
-//	    				PrintInfo(check);
-//	    				printf("\n------------------------------------\n");
-//						printf("Second half: ");
-//	    				PrintInfo(bagian);
-//	    				printf("\n===================================\n");
-////	    				priv = stack[top];
-////	            		chick = priv->infoTree;
-////	            		itung = CountNode(chick);
-////	            		printf("STACK SAAT INI : %d", itung);
-//	    				count = CountNode(check);
-//	    				if(count !=1)
-//						{
-//	    					stack[++top] = anak1;
-//	    					stack[++top] = anak1;
-//	    				}
-//					}
-//				} else {
-//					printf("Isi Tree kosong");
-//				}
-//	        }else {
-//    			prev = stack[top--];
-//			}
-//    	}
-//        
-//        if (top != -1) {
-//			*root = stack[top]->right;
-//        }
-//    } while (top != -1);
-//    
-//    i = 0;
-//    *root = still;
-//    do {	
-//		while (*root != NULL) 
-//		{
-//            stack[++top] = *root;
-//			last = *root;
-//            *root = (*root)->left;
-//        }
-//        while (top != -1 && (stack[top]->right == NULL || stack[top]->right == prev)) {
-//			prev= stack[top--];
-//            check = prev->infoTree;
-//            isi = First(check);
-//			count = CountNode(check);
-//			while(isi != Nil){
-//				printf("\nisi(%d) : %d ", i, isi->stok);
-//				isi = isi->next;
-//			} 
-//			i++;
-////			if (count == 1){
-//////				max[i].info = isi->info;
-//////				printf("\ninfo : %s ", max[i].info);
-////				max[i].stok = isi->stok;
-////				printf("\ninfo : %d ", max[i].stok);
-////				max[i].hargaBeli = isi->hargaBeli;
-////				max[i].hargaJual = isi->hargaJual;
-////				max[i].keuntungan = isi->keuntungan;
-////				i++;
-////			}
-//		}
-//		if (top != -1) {
-//			*root = stack[top]->right;
-//        }
-//	} while (top != -1);
-//}
+} while(top != -1);
+
+}
 
 void SeparateNode(List *L, List *bagian2)
 {
