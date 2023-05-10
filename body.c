@@ -4,7 +4,8 @@
 #include <string.h>
 #include "header.h"
 
-boolean IsEmpty(List L){
+boolean IsEmpty(List L)
+{
 	if (First(L) == Nil)
 	{
 		return true;
@@ -20,17 +21,13 @@ void CreateList(List *L)
 	First(*L) = Nil;
 }
 
-void CreateListTree(Tree *T)
+address Alokasi(List *L)
 {
-	FirstTree(*T) = Nil;
-}
-
-address AlokasiNode()
-{
+	/* Kamus Lokal */
 	address P;
-
+	/* Algoritma */
 	P = (address)malloc(sizeof(persediaanBarang));
-	if (P != Nil)
+	if (P != Nil) /* Alokasi berhasil */
 	{
 		printf("Masukkan nama barang\t: ");
     	scanf("%s", &Info(P));
@@ -48,10 +45,11 @@ address AlokasiNode()
 
 void InsertNode(List *L)
 {
+	/* Kamus Lokal */
 	address P;
 	address Last;
-
-	P = AlokasiNode();
+	/* Algoritma */
+	P = Alokasi(L);
 	if (P != Nil)
 	{
 		if (First(*L) != Nil){
@@ -68,29 +66,8 @@ void InsertNode(List *L)
 	}
 }
 
-void InsertLast(List *L, address P)
-{
-	address Last;
-
-	if (First(*L) != Nil)
-	{
-		Last = First(*L);
-		while (Next(Last) != Nil)
-		{
-			Last = Next(Last);
-		}
-		Next(Last) = P;
-	}
-	else
-	{
-		First(*L) = P;
-	}
-}
-
-void PrintInfo(List L)
-{
-	address P;
-	int masuk = 1;
+void PrintInfo(List L){
+	address P, still;
 
 	if (First(L) == Nil)
 	{
@@ -98,6 +75,7 @@ void PrintInfo(List L)
 	}
 	else /* List memiliki elemen */
 	{
+		still = P;
 		P = First(L);
 		while (P != Nil)
 		{
@@ -108,9 +86,7 @@ void PrintInfo(List L)
 			}
 			else /* Belum berada di akhir List */
 			{
-				Kode(P) = masuk;
-				printf("#Kode Masuk\t: %d\n", Kode(P));
-				printf("Nama barang\t: %s\n", Info(P));
+				printf("\nNama barang\t: %s\n", Info(P));
 				printf("Jumlah stok\t: %d\n", Stok(P));
 				printf("Harga beli\t: Rp. %d\n", Beli(P));
 				printf("Harga jual\t: Rp. %d\n", Jual(P));
@@ -118,44 +94,6 @@ void PrintInfo(List L)
 				P = Next(P);
 			}
 			printf("\n");
-			masuk++;
-		}
-	}
-}
-
-void PrintInfoTree(addressTree *root, List L)
-{
-
-	address P;
-	int masuk = 1;
-
-	if (First(L) == Nil)
-	{
-		printf("List Kosong .... \a\n");
-	}
-	else /* List memiliki elemen */
-	{
-		P = First(L);
-		for (;;)
-		{
-			if (P == Nil)
-			{
-				printf("\n");
-				break;
-			}
-			else /* Belum berada di akhir List */
-			{
-				Kode(P) = masuk;
-				printf("#Kode Masuk\t: %d\n", Kode(P));
-				printf("Nama barang\t: %s\n", Info(P));
-				printf("Jumlah stok\t: %d\n", Stok(P));
-				printf("Harga beli\t: Rp. %d\n", Beli(P));
-				printf("Harga jual\t: Rp. %d\n", Jual(P));
-				printf("Keuntungan\t: Rp. %d\n", Keuntungan(P));
-				P = Next(P);
-			}
-			printf("\n");
-			masuk++;
 		}
 	}
 }
@@ -169,11 +107,10 @@ int CountNode(List L) {
         	count++;
         	P = Next(P);
     	}
-    return count;
+    	return count;
 }	
 
 boolean IsEmptyTree(addressTree root)
-/* Mengirimkan true jika Isi_Tree KOSONG */
 {
     if (root == NULL)
     {
@@ -198,7 +135,7 @@ addressTree CreateTree(List *L)
 		Right(root) = NULL;
 //		if (IsEmptyTree(root) == false){
 //			printf("\nIsi tree : \n\n");
-//			PrintInfo(*L);
+//			PrintInfo(InfoTree(root));
 //		}	
 	}
 	else{
@@ -207,13 +144,34 @@ addressTree CreateTree(List *L)
 	return(root);
 }
 
+void SeparateNode(List *L, List *bagian2)
+{
+	address slow, fast;
+	
+	slow = First(*L);
+    fast = First(*L)->next;
+
+    while (fast != NULL) {
+        fast = fast->next;
+        if (fast != NULL) {
+            slow = slow->next;
+            fast = fast->next;
+        }
+    }
+	
+    First(*bagian2) = slow->next;
+    slow->next = NULL; 		
+}
+
 void SeparateTree(addressTree *root) {
     addressTree stack[MAX_SIZE], last, still, anak1, anak2, prev, priv;
     List check, bagian, chick;
-
+    		addressTree daun, tempDaun;
+int lewat;
+lewat = 0;
 
 	array max[MAX_SIZE];
-	int temp;
+	array temp;
     
     address isi, izi;
     int count, top, itung;
@@ -299,10 +257,9 @@ void SeparateTree(addressTree *root) {
 			*root = stack[top]->right;
 			printf("\ntop TENGAH %d", top);
         }
-        printf("\ntop AKHIR %d", top);
-        
-        
+        printf("\ntop AKHIR %d", top);    
     } while (top != -1);
+    
     
     int i;
     prev = Nil;
@@ -310,125 +267,163 @@ void SeparateTree(addressTree *root) {
     *root = still;
     boolean stop;
     stop = true;
-  do{
-	do {	
-		if(top == 0 && last == *root)
-		{
-			top--;
-		}
-		if(last == still){
-			top--;
-			stop = false;
-		} 
-		while (*root != NULL) 
-		{
-            stack[++top] = *root;
-            *root = (*root)->left;
-        }
-        while (top != -1 && (stack[top]->right == NULL || stack[top]->right == prev)) {
-			prev= stack[top--];
-            check = prev->infoTree;
-            isi = First(check);
-			count = CountNode(check);
-			if (count == 1){
-//				max[i].info = isi->info;
-//				printf("\ninfo : %s ", max[i].info);
-				max[i].stok = isi->stok;
-				printf("\ninfo : %d ", max[i].stok);
-				max[i].hargaBeli = isi->hargaBeli;
-				max[i].hargaJual = isi->hargaJual;
-				max[i].keuntungan = isi->keuntungan;
-				i++;
+	do{
+		do {	
+			if(top == 0 && last == *root)
+			{
+				top--;
 			}
-		}
-		if (top != -1) {
-			*root = stack[top]->right;
-			last = still;
-        }
-	} while (stop == true);
-
-	i = 0;
-	int hitungArray;
-	hitungArray = 0;
-	while(max[i].stok != 0)
-	{
-		hitungArray = hitungArray + 1;
-		i++;
-	}
-	printf("\n\nISI ARRAY : %d", hitungArray);
+			if(last == still){
+				top--;
+				stop = false;
+			} 
+			while (*root != NULL) 
+			{
+	            stack[++top] = *root;
+	            *root = (*root)->left;
+	        }
+	        while (top != -1 && (stack[top]->right == NULL || stack[top]->right == prev)) {
+				prev= stack[top--];
+	            check = prev->infoTree;
+	            isi = First(check);
+				count = CountNode(check);
+				if (count == 1){
+	//				max[i].info = isi->info;
+	//				printf("\ninfo : %s ", max[i].info);
+					max[i].stok = isi->stok;
+					printf("\ninfo : %d ", max[i].stok);
+					max[i].hargaBeli = isi->hargaBeli;
+					max[i].hargaJual = isi->hargaJual;
+					max[i].keuntungan = isi->keuntungan;
+					i++;
+				}
+			}
+			if (top != -1) {
+				*root = stack[top]->right;
+				last = still;
+	        }
+		} while (stop == true);
 	
-	// BESAR KE KECIL
-	for (i = 0; i <= hitungArray-1; i++) {
-        if (max[i+1].stok > max[i].stok) {
-            temp = max[i].stok;
-        	max[i].stok = max[i+1].stok;
-            max[i+1].stok = temp;
-        }
-    }
-    
-    printf("\n\nISI ARRAY : %d", hitungArray);
-    printf("\nArray setelah sorting: \n");
-    for (i = 0; i <= hitungArray-1 ; i++) {
-        printf("%d ", max[i].stok);
-    }
-    
-    List newNode;
-	address P;
-	address Last;
-	CreateList(&newNode);
-
-	i = 0;
-	for (i = 0; i <= hitungArray-1 ; i++) {
-	P = (address)malloc(sizeof(persediaanBarang));
+		i = 0;
+		int hitungArray;
+		hitungArray = 0;
+		while(max[i].stok != 0)
+		{
+			hitungArray = hitungArray + 1;
+			i++;
+		}
+		printf("\n\nISI ARRAY : %d", hitungArray);
+		
+		// BESAR KE KECIL
+		for (i = 0; i <= hitungArray-1; i++) {
+	        if (max[i+1].stok > max[i].stok) {
+	            temp = max[i];
+	        	max[i] = max[i+1];
+	            max[i+1] = temp;
+	        }
+	    }
+	    
+	    printf("\n\nISI ARRAY : %d", hitungArray);
+	    printf("\nArray setelah sorting: \n");
+	    for (i = 0; i <= hitungArray-1 ; i++) {
+	        printf("%d ", max[i].stok);
+	        
+	    }
+	    
+	    List newNode;
+		address P;
+		address Last;
+		CreateList(&newNode);
+	
+		i = 0;
+		for (i = 0; i <= hitungArray-1 ; i++) {
+		P = (address)malloc(sizeof(persediaanBarang));
+			if (P != Nil)
+			{
+		    	//Info(P) = max[i].info;
+		    	Stok(P) = max[i].stok;
+		    	Beli(P) = max[i].hargaBeli;
+		    	Jual(P) = max[i].hargaJual;
+		    	Keuntungan(P) = max[i].keuntungan;
+				Next(P) = Nil;
+			}
 		if (P != Nil)
 		{
-	    	//Info(P) = max[i].info;
-	    	Stok(P) = max[i].stok;
-	    	Beli(P) = max[i].hargaBeli;
-	    	Jual(P) = max[i].hargaJual;
-	    	Keuntungan(P) = max[i].keuntungan;
-			Next(P) = Nil;
-		}
-	if (P != Nil)
-	{
-		if (First(newNode) != Nil){
-			Last = First(newNode);
-			while (Next(Last) != Nil){
-				Last = Next(Last);
+			if (First(newNode) != Nil){
+				Last = First(newNode);
+				while (Next(Last) != Nil){
+					Last = Next(Last);
+				}
+				Next(Last) = P;
 			}
-			Next(Last) = P;
+			else
+			{
+				First(newNode) = P;
+			}
 		}
-		else
-		{
-			First(newNode) = P;
 		}
-	}
-	}
+		printf("isi list :::");
+		PrintInfo(newNode);
+		i = 0;
+		stop = true;
+		last = *root;
+		
+		if(daun != Nil){
+			tempDaun = daun;
+		}
+		daun = CreateTree(&newNode);
+		printf("isi tree ::");
+		PrintInfo(InfoTree(daun));
+	} while(top != -1);
 	
-	PrintInfo(newNode);
-	i = 0;
-	stop = true;
-	last = *root;
-
-} while(top != -1);
-
+		*root = still;
+		stop = true;
+		prev = Nil;
+			printf("\n\n\nMASUK\n\n\n ");
+		do {
+			if(top == 0 && last == *root)
+			{
+				top--;
+			}
+			if(last == still){
+				top--;
+			} 
+			
+			while (*root != NULL) 
+			{
+	            stack[++top] = *root;
+	            *root = (*root)->left;
+	        }
+	        while (top != -1 && (stack[top]->right == NULL || stack[top]->right == prev)) {
+				prev = stack[top--];
+	            if (Left(prev) == Nil){
+					if(lewat != 1){
+						Right(prev) = tempDaun;
+	            		Left(prev) = tempDaun;
+	            		lewat++;
+	            		
+					} else {
+						Right(prev) = daun;
+	            		Left(prev) = daun;
+					}
+	            	printf("berhasil tambahkan \n\n\n ");
+	            	PrintInfo(InfoTree(Right(prev)));
+				}
+			}
+			
+			if (top != -1) {
+				*root = stack[top]->right;
+				last = still;
+	        }
+	        
+	        prev = stack[top--];
+	        check = prev->infoTree;
+	        isi = First(check);
+			count = CountNode(check);
+			if (count != 1){
+				stop = false;
+			}
+	        
+		} while (stop == true);
 }
 
-void SeparateNode(List *L, List *bagian2)
-{
-	address slow, fast;
-	
-	slow = First(*L);
-    fast = First(*L)->next;
-
-    while (fast != NULL) {
-        fast = fast->next;
-        if (fast != NULL) {
-            slow = slow->next;
-            fast = fast->next;
-        }
-    }
-	
-    First(*bagian2) = slow->next;
-    slow->next = NULL; 		
-}
