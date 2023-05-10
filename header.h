@@ -24,6 +24,7 @@ typedef struct element *address;
 // LIST PERSEDIAAN BARANG
 typedef struct element{
 	value info[50];
+	int kodeMasuk;
 	int stok;
 	int hargaBeli;
 	int hargaJual;

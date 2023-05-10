@@ -327,7 +327,6 @@ lewat = 0;
 	    printf("\nArray setelah sorting: \n");
 	    for (i = 0; i <= hitungArray-1 ; i++) {
 	        printf("%d ", max[i].stok);
-	        
 	    }
 	    
 	    List newNode;
@@ -376,54 +375,50 @@ lewat = 0;
 		PrintInfo(InfoTree(daun));
 	} while(top != -1);
 	
-		*root = still;
-		stop = true;
-		prev = Nil;
-			printf("\n\n\nMASUK\n\n\n ");
-		do {
-			if(top == 0 && last == *root)
-			{
-				top--;
-			}
-			if(last == still){
-				top--;
-			} 
-			
-			while (*root != NULL) 
-			{
-	            stack[++top] = *root;
-	            *root = (*root)->left;
-	        }
-	        while (top != -1 && (stack[top]->right == NULL || stack[top]->right == prev)) {
-				prev = stack[top--];
-	            if (Left(prev) == Nil){
-					if(lewat != 1){
-						Right(prev) = tempDaun;
-	            		Left(prev) = tempDaun;
-	            		lewat++;
-	            		
-					} else {
-						Right(prev) = daun;
-	            		Left(prev) = daun;
-					}
-	            	printf("berhasil tambahkan \n\n\n ");
-	            	PrintInfo(InfoTree(Right(prev)));
+	*root = still;
+	stop = true;
+	prev = Nil;
+	printf("\n\n\nMASUK\n\n\n ");
+	do {
+		if(top == 0 && last == *root)
+		{
+			top--;
+		}
+		if(last == still){
+			top--;
+		} 		
+		while (*root != NULL) 
+		{
+	        stack[++top] = *root;
+	    	*root = (*root)->left;
+	    }
+		while (top != -1 && (stack[top]->right == NULL || stack[top]->right == prev)) {
+			prev = stack[top--];
+	    	if (Left(prev) == Nil){
+				if(lewat != 1){
+					Right(prev) = tempDaun;
+	            	Left(prev) = tempDaun;
+	            	lewat++;	
+				} 
+				else {
+					Right(prev) = daun;
+	            	Left(prev) = daun;
 				}
+	            printf("berhasil tambahkan \n\n\n ");
+	            PrintInfo(InfoTree(Right(prev)));
 			}
-			
-			if (top != -1) {
-				*root = stack[top]->right;
-				last = still;
-	        }
-	        
-	        prev = stack[top--];
-	        check = prev->infoTree;
-	        isi = First(check);
-			count = CountNode(check);
-			if (count != 1){
-				stop = false;
-			}
-	        
-		} while (stop == true);
+		}	
+		if (top != -1) {
+			*root = stack[top]->right;
+			last = still;
+	    }
+        prev = stack[top--];
+	    check = prev->infoTree;
+	    isi = First(check);
+		count = CountNode(check);
+		if (count != 1){
+			stop = false;
+		}	        
+	} while (stop == true);
 }
 
