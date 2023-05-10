@@ -378,15 +378,9 @@ lewat = 0;
 	*root = still;
 	stop = true;
 	prev = Nil;
+	top = -1;
 	printf("\n\n\nMASUK\n\n\n ");
-	do {
-		if(top == 0 && last == *root)
-		{
-			top--;
-		}
-		if(last == still){
-			top--;
-		} 		
+	do { 
 		while (*root != NULL) 
 		{
 	        stack[++top] = *root;
@@ -395,7 +389,7 @@ lewat = 0;
 		while (top != -1 && (stack[top]->right == NULL || stack[top]->right == prev)) {
 			prev = stack[top--];
 	    	if (Left(prev) == Nil){
-				if(lewat != 1){
+				if(lewat < 2){
 					Right(prev) = tempDaun;
 	            	Left(prev) = tempDaun;
 	            	lewat++;	
@@ -403,22 +397,20 @@ lewat = 0;
 				else {
 					Right(prev) = daun;
 	            	Left(prev) = daun;
+	            	lewat++;
 				}
 	            printf("berhasil tambahkan \n\n\n ");
 	            PrintInfo(InfoTree(Right(prev)));
 			}
-		}	
+		}
 		if (top != -1) {
 			*root = stack[top]->right;
+			top--;
 			last = still;
-	    }
-        prev = stack[top--];
-	    check = prev->infoTree;
-	    isi = First(check);
-		count = CountNode(check);
-		if (count != 1){
-			stop = false;
-		}	        
-	} while (stop == true);
+	    }  
+		printf("HI");    
+	} while (lewat < 4);
+	
+	
 }
 
