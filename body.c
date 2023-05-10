@@ -212,7 +212,8 @@ void SeparateTree(addressTree *root) {
     List check, bagian, chick;
 
 
-	array temp[MAX_SIZE], max[MAX_SIZE];
+	array max[MAX_SIZE];
+	int temp;
     
     address isi, izi;
     int count, top, itung;
@@ -343,10 +344,13 @@ void SeparateTree(addressTree *root) {
     prev = Nil;
     i = 0;
     *root = still;
+    boolean stop;
+    stop = true;
   //  prev = *root;
     do {	
 		if(top != -1){
 			top--;
+			stop = false;
 		}
 		while (*root != NULL) 
 		{
@@ -377,7 +381,74 @@ void SeparateTree(addressTree *root) {
 		if (top != -1) {
 			*root = stack[top]->right;
         }
-	} while (top != -1);
+	} while (stop == true);
+
+    printf("\nTOP ARRAY %d", top);	
+    priv = stack[top];
+	chick = priv->infoTree;
+	itung = CountNode(chick);
+	printf("\nSTACK ARRAY SAAT INI : %d", itung);
+	
+	i = 0;
+	int hitungArray;
+	hitungArray = 0;
+	while(max[i].stok != 0)
+	{
+		hitungArray = hitungArray + 1;
+		i++;
+	}
+	printf("\n\nISI ARRAY : %d", hitungArray);
+	
+	// BESAR KE KECIL
+	for (i = 0; i <= hitungArray-1; i++) {
+        if (max[i+1].stok > max[i].stok) {
+            // Swap arr[j] and arr[j+1]
+            temp = max[i].stok;
+        	max[i].stok = max[i+1].stok;
+            max[i+1].stok = temp;
+        }
+    }
+    
+    printf("\n\nISI ARRAY : %d", hitungArray);
+    printf("\nArray setelah sorting: \n");
+    for (i = 0; i <= hitungArray-1 ; i++) {
+        printf("%d ", max[i].stok);
+    }
+    
+    List newNode;
+	address P;
+	address Last;
+	CreateList(&newNode);
+
+	i = 0;
+	for (i = 0; i <= hitungArray-1 ; i++) {
+	P = (address)malloc(sizeof(persediaanBarang));
+		if (P != Nil)
+		{
+	    	//Info(P) = max[i].info;
+	    	Stok(P) = max[i].stok;
+	    	Beli(P) = max[i].hargaBeli;
+	    	Jual(P) = max[i].hargaJual;
+	    	Keuntungan(P) = max[i].keuntungan;
+			Next(P) = Nil;
+		}
+	if (P != Nil)
+	{
+		if (First(newNode) != Nil){
+			Last = First(newNode);
+			while (Next(Last) != Nil){
+				Last = Next(Last);
+			}
+			Next(Last) = P;
+		}
+		else
+		{
+			First(newNode) = P;
+		}
+	}
+	}
+	
+	PrintInfo(newNode);
 }
 
 //void SeparateTree(addressTree *root) {
@@ -531,79 +602,3 @@ void SeparateNode(List *L, List *bagian2)
     First(*bagian2) = slow->next;
     slow->next = NULL; 		
 }
-
-//void MergeTree(addressTree *root) {
-//    addressTree stack[MAX_SIZE], last, still, anak1, anak2, prev;
-//    List check, bagian;
-//    address isi;
-//    int count, top, i;
-//    persediaanBarang temp[MAX_SIZE], max[MAX_SIZE];
-//    
-//    if (*root == Nil) {
-//        return;
-//    }
-//    
-//	top = -1;
-//    prev = Nil;
-//    *root = still;
-//    //still = *root;
-//    
-//		while (*root != NULL) 
-//		{
-//            stack[++top] = *root;
-//            prev = stack[top];
-//	    	check = prev->infoTree;
-//	    	isi = First(check);
-//	    	printf("info isi %s", isi->info);
-//            stack[++top] = *root;
-//			last = *root;
-//            *root = (*root)->left;
-//        }
-//    
-////    do {
-////		while (*root != NULL) 
-////		{
-////            stack[++top] = *root;
-////            prev = stack[top];
-////	    	check = prev->infoTree;
-////	    	isi = First(check);
-////	    	printf("info isi %s", isi->info);
-////            //stack[++top] = *root;
-////			last = *root;
-////            *root = (*root)->left;
-////        }
-////        
-////        prev = stack[top--];
-////	    check = prev->infoTree;
-////	    isi = First(check);
-////	    printf("info isi %s", isi->info);
-////          
-//          
-////        i = 1;
-////        while (top != -1 && (stack[top]->right == NULL || stack[top]->right == prev)) {
-////				prev = stack[top--];
-////	            check = prev->infoTree;
-////	            isi = First(check);
-////	        //    printf("info isi %s", isi->info);
-////	            count = CountNode(check);
-////            	if (count != 1){
-////		           	isi->info[50] = max[i].info;
-////		           	printf("\ninfo : %s ", max[i].info);
-////		           	isi->stok = max[i].stok;
-////		           	isi->hargaBeli = max[i].hargaBeli;
-////		           	isi->hargaJual = max[i].hargaJual;
-////		           	isi->keuntungan = max[i].keuntungan;
-////           		}
-////           		i++;
-////        }
-////        if (top != -1) {
-////			*root = stack[top]->right;
-////		}
-////    } while (top != -1);
-////
-////	for (i = 0; i < MAX_SIZE; i++){
-//////		printf("info : %s ", max[i].info);
-////	}
-//	
-////	printf("info : %s ", max[i].info);
-//}
