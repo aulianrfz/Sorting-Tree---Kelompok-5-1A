@@ -164,7 +164,7 @@ void SeparateNode(List *L, List *bagian2)
 }
 
 void SeparateTree(addressTree *root) {
-    addressTree stack[MAX_SIZE], last, still, anak1, anak2, prev, priv;
+    addressTree stack[MAX_SIZE], last, still, anak1, anak2, prev, priv, awalan;
     List check, bagian, chick;
     		addressTree daun, tempDaun;
 int lewat;
@@ -183,6 +183,7 @@ lewat = 0;
 	top = -1;
     prev = *root;
     still = *root;
+    awalan = still;
     
     do {	
 		if(top != -1){
@@ -230,17 +231,7 @@ lewat = 0;
 					{
     					stack[++top] = anak1;
     					stack[++top] = anak1;
-    					chick = priv->infoTree;
-	        izi = First(chick);
-	        itung = CountNode(chick);
-	        printf("\nSTACK SAAT INI FIX 2 : %d", itung);
     				}
-    				printf("\ntop %d", top);
-    							priv = stack[top];
-	        chick = priv->infoTree;
-	        itung = CountNode(chick);
-	        izi = First(chick);
-	        printf("\nISI : %s", izi->info);
 				}
 			} else {
 				printf("Isi Tree kosong");
@@ -399,7 +390,7 @@ lewat = 0;
 	            	Left(prev) = daun;
 	            	lewat++;
 				}
-	            printf("berhasil tambahkan \n\n\n ");
+	            printf("berhasil tambhkan \n\n\n ");
 	            PrintInfo(InfoTree(Right(prev)));
 			}
 		}
@@ -410,7 +401,174 @@ lewat = 0;
 	    }  
 		printf("HI");    
 	} while (lewat < 4);
+	fflush(stdin);
 	
+	top = -1;
+	*root = awalan;
+	last = Nil;
+	stop = true;
+	do{
+		do {
+						if(top == 0 && last == *root)
+			{
+				top--;
+			}
+				
+			if(last == still){
+				top--;
+				stop = false;
+			} 
+			while (*root != NULL) 
+			{
+	            stack[++top] = *root;
+	            *root = (*root)->left;
+	        }
+	        while (top != -1 && ((stack[top]->right == NULL) || (stack[top]->right == prev))) {
+				prev= stack[top--];
+	            check = prev->infoTree;
+	            isi = First(check);
+				count = CountNode(check);
+					while(isi !=Nil){
+						
+	//				max[i].info = isi->info;
+	//				printf("\ninfo : %s ", max[i].info);
+					max[i].stok = isi->stok;
+					printf("\ninfo : %d ", max[i].stok);
+					max[i].hargaBeli = isi->hargaBeli;
+					max[i].hargaJual = isi->hargaJual;
+					max[i].keuntungan = isi->keuntungan;
+					i++;
+					isi = isi->next;
+			}
+			top--;
+			top--;
+			}
+			if (top != -1) {
+				*root = stack[top]->right;
+				last = still;
+	        }
+		} while (stop == true);
+	
+		i = 0;
+		int hitungArray;
+		hitungArray = 0;
+		while(max[i].stok != 0)
+		{
+			hitungArray = hitungArray + 1;
+			i++;
+		}
+		printf("\n\nISI ARRAY : %d", hitungArray);
+		
+		// BESAR KE KECIL
+int j;
+for (i = 0; i < hitungArray-1; i++) {
+    for (j = 0; j < hitungArray-i-1; j++) {
+        if (max[j].stok < max[j+1].stok) {
+            // Swap the elements
+            temp = max[j];
+            max[j] = max[j+1];
+            max[j+1] = temp;
+        }
+    }
+}
+	    
+	    printf("\n\nISI ARRAY : %d", hitungArray);
+	    printf("\nArray setelah sorting: \n");
+	    for (i = 0; i <= hitungArray-1 ; i++) {
+	        printf("%d ", max[i].stok);
+	    }
+	    
+	    List newNode;
+		address P;
+		address Last;
+		CreateList(&newNode);
+	
+		i = 0;
+		for (i = 0; i <= hitungArray-1 ; i++) {
+		P = (address)malloc(sizeof(persediaanBarang));
+			if (P != Nil)
+			{
+		    	//Info(P) = max[i].info;
+		    	Stok(P) = max[i].stok;
+		    	Beli(P) = max[i].hargaBeli;
+		    	Jual(P) = max[i].hargaJual;
+		    	Keuntungan(P) = max[i].keuntungan;
+				Next(P) = Nil;
+			}
+		if (P != Nil)
+		{
+			if (First(newNode) != Nil){
+				Last = First(newNode);
+				while (Next(Last) != Nil){
+					Last = Next(Last);
+				}
+				Next(Last) = P;
+			}
+			else
+			{
+				First(newNode) = P;
+			}
+		}
+		}
+		printf("isi list :::");
+		PrintInfo(newNode);
+		i = 0;
+		stop = true;
+		last = *root;
+		
+		if(daun != Nil){
+			tempDaun = daun;
+		}
+		daun = CreateTree(&newNode);
+		printf("isi tree ::");
+		PrintInfo(InfoTree(daun));
+	} while(top != -1);
+	
+	*root = still;
+	stop = true;
+	prev = Nil;
+	top = -1;
+	printf("\n\n\nMASUK\n\n\n ");
+	do { 
+		while (*root != NULL) 
+		{
+	        stack[++top] = *root;
+	    	*root = (*root)->left;
+	    }
+		while (top != -1 && (stack[top]->right == NULL || stack[top]->right == prev)) {
+			prev = stack[top--];
+	    	if (Left(prev) == Nil){
+					Right(prev) = daun;
+	            	Left(prev) = daun;
+	            	lewat++;	
+	            printf("berhasil tambhkan \n\n\n ");
+	            PrintInfo(InfoTree(Right(prev)));
+			}
+		}
+		top--;
+		top--;
+		top--;
+		if (top != -1) {
+			*root = stack[top]->right;
+			last = still;
+	    }  
+		printf("HI");    
+	} while (lewat < 4);
+	fflush(stdin);
 	
 }
 
+//void bubbleSort(array arr[], int n) {
+//    int i, j;
+//    array temp;
+//    for (i = 0; i < n-1; i++) {
+//        for (j = 0; j < n-i-1; j++) {
+//            if (arr[j] > arr[j+1]) {
+//                // Swap arr[j] and arr[j+1]
+//                temp = arr[j];
+//                arr[j] = arr[j+1];
+//                arr[j+1] = temp;
+//            }
+//        }
+//    }
+//}
