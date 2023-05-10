@@ -163,9 +163,9 @@ void SeparateNode(List *L, List *bagian2)
     slow->next = NULL; 		
 }
 
-void SeparateTree(addressTree *root) {
+vvoid SeparateTree(addressTree *root) {
 	//kamus data
-    addressTree stack[MAX_SIZE], last, still, anak1, anak2, prev, priv;
+    addressTree stack[MAX_SIZE], last, still, anak1, anak2, prev, priv, awalan;
     List check, bagian, chick;
     addressTree daun, tempDaun;
 	int lewat;
@@ -177,7 +177,7 @@ void SeparateTree(addressTree *root) {
     address isi, izi;
     int count, top, itung;
     
-    //membagi root menjadi berisi satu node saja setiap bagiannya
+    //membagi roor menjadi satu node pada setiap anaknya
     if (*root == Nil) {
         return;
     }
@@ -185,6 +185,7 @@ void SeparateTree(addressTree *root) {
 	top = -1;
     prev = *root;
     still = *root;
+    awalan = still;
     
     do {	
 		if(top != -1){
@@ -197,12 +198,8 @@ void SeparateTree(addressTree *root) {
 			last = *root;
             *root = (*root)->left;
         }
-	        priv = stack[top];
-		    chick = priv->infoTree;
-		    itung = CountNode(chick);
-		    printf("\nSTACK SAAT INI ATAS : %d", itung);
-	        while (top != -1 && (stack[top]->right == NULL || stack[top]->right == prev)) {
-	        	if(stack[top]->right != prev){
+        while (top != -1 && (stack[top]->right == NULL || stack[top]->right == prev)) {
+        	if(stack[top]->right != prev){
 				prev = stack[top--];
 	            check = prev->infoTree;
 	            isi = First(check);
@@ -226,8 +223,6 @@ void SeparateTree(addressTree *root) {
 	    				PrintInfo(bagian);
 	    				printf("\n===================================\n");
 	    				count = CountNode(check);
-	    				printf("\nitungan : %d", count);
-	    				printf("\nISI : %s", izi->info);
 	    				if(count != 1)
 						{
 	    					stack[++top] = anak1;
@@ -238,14 +233,17 @@ void SeparateTree(addressTree *root) {
 				else {
 					printf("Isi Tree kosong");
 				}
-	        } 
+        	} 
 			else {
-	    		prev = stack[top--];
+    			prev = stack[top--];
 			}
-    	}    
+   		}
+        if (top != -1) {
+			*root = stack[top]->right;
+        }  
     } while (top != -1);
     
-    //memasukkan setiap ujung node yang berjumlah satu kedalam array yang berbeda
+    //memasukkan setiap node tree yang berjumlah 1 node kedalam array
     int i;
     prev = Nil;
     i = 0;
@@ -288,7 +286,7 @@ void SeparateTree(addressTree *root) {
 				last = still;
 	        }
 		} while (stop == true);
-	
+		
 		i = 0;
 		int hitungArray;
 		hitungArray = 0;
@@ -298,6 +296,10 @@ void SeparateTree(addressTree *root) {
 			i++;
 		}
 		printf("\n\nISI ARRAY : %d", hitungArray);
+		printf("\nArray sebelum sorting: \n");
+	    for (i = 0; i <= hitungArray-1 ; i++) {
+	        printf("%d ", max[i].stok);
+	    }
 		
 		//sorting pada array
 		// BESAR KE KECIL
@@ -315,12 +317,13 @@ void SeparateTree(addressTree *root) {
 	        printf("%d ", max[i].stok);
 	    }
 	    
-	    //membuat list berdasarkan array yang sudah disorting
+	    //membuat list untuk array yang telah disorting
 	    List newNode;
 		address P;
 		address Last;
 		CreateList(&newNode);
-		//memasukkan setiap ellemen array ke list
+		
+		//memasukkan setiap elemen pada array ke dalam list
 		i = 0;
 		for (i = 0; i <= hitungArray-1 ; i++) {
 			P = (address)malloc(sizeof(persediaanBarang));
@@ -333,8 +336,7 @@ void SeparateTree(addressTree *root) {
 		    	Keuntungan(P) = max[i].keuntungan;
 				Next(P) = Nil;
 			}
-			if (P != Nil)
-			{
+			if (P != Nil){
 				if (First(newNode) != Nil){
 					Last = First(newNode);
 					while (Next(Last) != Nil){
@@ -342,8 +344,7 @@ void SeparateTree(addressTree *root) {
 					}
 					Next(Last) = P;
 				}
-				else
-				{
+				else{
 					First(newNode) = P;
 				}
 			}
@@ -354,7 +355,7 @@ void SeparateTree(addressTree *root) {
 		stop = true;
 		last = *root;
 		
-		//membuat node tree berisi list yang sudah disorting
+		//membuat node tree baru untuk list yang telah di urutkan
 		if(daun != Nil){
 			tempDaun = daun;
 		}
@@ -363,7 +364,7 @@ void SeparateTree(addressTree *root) {
 		PrintInfo(InfoTree(daun));
 	} while(top != -1);
 	
-	//menyambungkan node tree ke tree
+	//menyambungkan node tree baru ke tree
 	*root = still;
 	stop = true;
 	prev = Nil;
@@ -388,7 +389,7 @@ void SeparateTree(addressTree *root) {
 	            	Left(prev) = daun;
 	            	lewat++;
 				}
-	            printf("berhasil tambahkan \n\n\n ");
+	            printf("berhasil tambhkan \n\n\n ");
 	            PrintInfo(InfoTree(Right(prev)));
 			}
 		}
@@ -401,17 +402,18 @@ void SeparateTree(addressTree *root) {
 	} while (lewat < 4);
 	fflush(stdin);
 	
-	//memasukkan setiap node tree yang telah diurutkan sebelumnya ke dalam array
+	//memasukkan node tree yang berisi lebih dari 1 ke dalam array
 	top = -1;
 	*root = awalan;
 	last = Nil;
 	stop = true;
 	do{
 		do {
-				if(top == 0 && last == *root)
+			if(top == 0 && last == *root)
 			{
 				top--;
-			}	
+			}
+				
 			if(last == still){
 				top--;
 				stop = false;
@@ -427,6 +429,7 @@ void SeparateTree(addressTree *root) {
 	            isi = First(check);
 				count = CountNode(check);
 					while(isi !=Nil){
+						
 	//				max[i].info = isi->info;
 	//				printf("\ninfo : %s ", max[i].info);
 					max[i].stok = isi->stok;
@@ -436,9 +439,9 @@ void SeparateTree(addressTree *root) {
 					max[i].keuntungan = isi->keuntungan;
 					i++;
 					isi = isi->next;
-				}
-				top--;
-				top--;
+			}
+			top--;
+			top--;
 			}
 			if (top != -1) {
 				*root = stack[top]->right;
@@ -455,8 +458,12 @@ void SeparateTree(addressTree *root) {
 			i++;
 		}
 		printf("\n\nISI ARRAY : %d", hitungArray);
-		
-		//sorting pada array
+		printf("\nArray sebelum sorting: \n");
+	    for (i = 0; i <= hitungArray-1 ; i++) {
+	        printf("%d ", max[i].stok);
+	    }
+	    
+	    //sorting pada array
 		// BESAR KE KECIL
 		int j;
 		for (i = 0; i < hitungArray-1; i++) {
@@ -469,19 +476,20 @@ void SeparateTree(addressTree *root) {
 		        }
 		    }
 		}
+	    
 	    printf("\n\nISI ARRAY : %d", hitungArray);
 	    printf("\nArray setelah sorting: \n");
 	    for (i = 0; i <= hitungArray-1 ; i++) {
 	        printf("%d ", max[i].stok);
 	    }
 	    
-	    //membuat list dari array yang telahh disorting
+	    //membuat lkst baru untuk array yang telah disorting
 	    List newNode;
 		address P;
 		address Last;
 		CreateList(&newNode);
-	
-		//memasukkan setiap elemen array ke list baru
+		
+		//memasukkan setiap elemen array ke list
 		i = 0;
 		for (i = 0; i <= hitungArray-1 ; i++) {
 		P = (address)malloc(sizeof(persediaanBarang));
@@ -515,7 +523,7 @@ void SeparateTree(addressTree *root) {
 		stop = true;
 		last = *root;
 		
-		//membuat node tree untuk list yang telah disorting
+		//membuat node tree baru berisi list yang telah disorting
 		if(daun != Nil){
 			tempDaun = daun;
 		}
@@ -524,7 +532,7 @@ void SeparateTree(addressTree *root) {
 		PrintInfo(InfoTree(daun));
 	} while(top != -1);
 	
-	//menyambungkan node tree ke tree
+	//menyambungkan node tree baru ke tree
 	*root = still;
 	stop = true;
 	prev = Nil;
@@ -557,5 +565,3 @@ void SeparateTree(addressTree *root) {
 	} while (lewat < 4);
 	fflush(stdin);
 }
-}
-
