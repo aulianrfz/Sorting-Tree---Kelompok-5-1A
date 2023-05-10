@@ -48,7 +48,7 @@ typedef struct element2{
 }Tree;
 
 typedef struct array{
-	const char* namaBarang[50];
+	value namaBarang[50];
 	int stok;
 	int hargaBeli;
 	int hargaJual;
@@ -75,6 +75,6 @@ addressTree CreateTree(List *L);
 
 void SeparateNode(List *L, List *bagian2);
 
-void SeparateTree(addressTree *root);
+void SeparateTree(addressTree *root, int pilihan, int pilih);
 
 #endif

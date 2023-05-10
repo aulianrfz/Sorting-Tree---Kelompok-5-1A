@@ -163,7 +163,7 @@ void SeparateNode(List *L, List *bagian2)
     slow->next = NULL; 		
 }
 
-vvoid SeparateTree(addressTree *root) {
+void SeparateTree(addressTree *root, int pilihan, int pilih) {
 	//kamus data
     addressTree stack[MAX_SIZE], last, still, anak1, anak2, prev, priv, awalan;
     List check, bagian, chick;
@@ -175,7 +175,7 @@ vvoid SeparateTree(addressTree *root) {
 	array temp;
     
     address isi, izi;
-    int count, top, itung;
+    int i, j, count, top, itung;
     
     //membagi roor menjadi satu node pada setiap anaknya
     if (*root == Nil) {
@@ -244,7 +244,6 @@ vvoid SeparateTree(addressTree *root) {
     } while (top != -1);
     
     //memasukkan setiap node tree yang berjumlah 1 node kedalam array
-    int i;
     prev = Nil;
     i = 0;
     *root = still;
@@ -271,10 +270,10 @@ vvoid SeparateTree(addressTree *root) {
 	            isi = First(check);
 				count = CountNode(check);
 				if (count == 1){
-	//				max[i].info = isi->info;
-	//				printf("\ninfo : %s ", max[i].info);
+					strcpy(max[i].namaBarang, isi->info);
+//					printf("\ninfo : %s ", max[i].info);
 					max[i].stok = isi->stok;
-					printf("\ninfo : %d ", max[i].stok);
+	//				printf("\ninfo : %d ", max[i].stok);
 					max[i].hargaBeli = isi->hargaBeli;
 					max[i].hargaJual = isi->hargaJual;
 					max[i].keuntungan = isi->keuntungan;
@@ -297,24 +296,121 @@ vvoid SeparateTree(addressTree *root) {
 		}
 		printf("\n\nISI ARRAY : %d", hitungArray);
 		printf("\nArray sebelum sorting: \n");
-	    for (i = 0; i <= hitungArray-1 ; i++) {
-	        printf("%d ", max[i].stok);
+		for (i = 0; i <= hitungArray-1 ; i++) {
+	    	printf("\nIndex \t\t : %d \n", i);
+	    	printf("Nama Barang \t : %s \n", max[i].namaBarang);
+	        printf("stok \t\t : %d \n", max[i].stok);
+	        printf("harga jual \t :%d \n", max[i].hargaJual);
+	        printf("harga beli \t :%d \n", max[i].hargaBeli);
+	        printf("harga beli \t :%d \n", max[i].keuntungan);
 	    }
-		
 		//sorting pada array
-		// BESAR KE KECIL
-		for (i = 0; i <= hitungArray-1; i++) {
-	        if (max[i+1].stok > max[i].stok) {
-	            temp = max[i];
-	        	max[i] = max[i+1];
-	            max[i+1] = temp;
-	        }
-	    }
+		if (pilihan == 1){
+			if (pilih == 1){
+				for ( i = 0; i < hitungArray-1; i++) {
+	        		for ( j = 0; j < hitungArray-i-1; j++) {
+	            		if (max[j+1].stok > max[j].stok) {
+	              		  temp = max[j];
+	                		max[j] = max[j+1];
+	                		max[j+1] = temp;
+	            		}
+	            	}
+				}
+		    }
+		    else if (pilih == 2){
+		    	for (i = 0; i < hitungArray-1; i++) {
+    				for (j = 0; j < hitungArray-i-1; j++) {
+      				  if (max[j].stok > max[j+1].stok) {
+         			   temp = max[j];
+          			  max[j] = max[j+1];
+          			  max[j+1] = temp;
+      				  }
+    				}
+				}
+			}
+		}
+		else if (pilihan == 2){
+			if (pilih == 1){
+				for ( i = 0; i < hitungArray-1; i++) {
+	        		for ( j = 0; j < hitungArray-i-1; j++) {
+	            		if (max[j+1].hargaJual > max[j].hargaJual) {
+	              		  temp = max[j];
+	                		max[j] = max[j+1];
+	                		max[j+1] = temp;
+	            		}
+	            	}
+				}
+		    }
+		    else if (pilih == 2){
+		    	for (i = 0; i < hitungArray-1; i++) {
+    				for (j = 0; j < hitungArray-i-1; j++) {
+      				  if (max[j].hargaJual > max[j+1].hargaJual) {
+         			   temp = max[j];
+          			  max[j] = max[j+1];
+          			  max[j+1] = temp;
+      				  }
+    				}
+				}
+			}
+		}
+		else if (pilihan == 3){
+			if (pilih == 1){
+				for ( i = 0; i < hitungArray-1; i++) {
+	        		for ( j = 0; j < hitungArray-i-1; j++) {
+	            		if (max[j+1].hargaBeli > max[j].hargaBeli) {
+	              		  temp = max[j];
+	                		max[j] = max[j+1];
+	                		max[j+1] = temp;
+	            		}
+	            	}
+				}
+		    }
+		    else if (pilih == 2){
+		    	for (i = 0; i < hitungArray-1; i++) {
+    				for (j = 0; j < hitungArray-i-1; j++) {
+      				  if (max[j].hargaBeli > max[j+1].hargaBeli) {
+         			   temp = max[j];
+          			  max[j] = max[j+1];
+          			  max[j+1] = temp;
+      				  }
+    				}
+				}
+			}
+		}
+		else if (pilihan == 4){
+			if (pilih == 1){
+				for ( i = 0; i < hitungArray-1; i++) {
+	        		for ( j = 0; j < hitungArray-i-1; j++) {
+	            		if (max[j+1].keuntungan > max[j].keuntungan) {
+	              		  temp = max[j];
+	                		max[j] = max[j+1];
+	                		max[j+1] = temp;
+	            		}
+	            	}
+				}
+		    }
+		    else if (pilih == 2){
+		    	for (i = 0; i < hitungArray-1; i++) {
+    				for (j = 0; j < hitungArray-i-1; j++) {
+      				  if (max[j].keuntungan > max[j+1].keuntungan) {
+         			   temp = max[j];
+          			  max[j] = max[j+1];
+          			  max[j+1] = temp;
+      				  }
+    				}
+				}
+			}
+		}
 	    
 	    printf("\n\nISI ARRAY : %d", hitungArray);
 	    printf("\nArray setelah sorting: \n");
 	    for (i = 0; i <= hitungArray-1 ; i++) {
-	        printf("%d ", max[i].stok);
+	    	printf("\nIndex \t\t : %d \n", i);
+	    	printf("Nama Barang \t : %s \n", max[i].namaBarang);
+	        printf("stok \t\t : %d \n", max[i].stok);
+	        printf("harga jual \t :%d \n", max[i].hargaJual);
+	        printf("harga beli \t :%d \n", max[i].hargaBeli);
+	        printf("harga beli \t :%d \n", max[i].keuntungan);
 	    }
 	    
 	    //membuat list untuk array yang telah disorting
@@ -329,7 +425,7 @@ vvoid SeparateTree(addressTree *root) {
 			P = (address)malloc(sizeof(persediaanBarang));
 			if (P != Nil)
 			{
-		    	//Info(P) = max[i].info;
+				strcpy(Info(P), max[i].namaBarang);
 		    	Stok(P) = max[i].stok;
 		    	Beli(P) = max[i].hargaBeli;
 		    	Jual(P) = max[i].hargaJual;
@@ -389,7 +485,7 @@ vvoid SeparateTree(addressTree *root) {
 	            	Left(prev) = daun;
 	            	lewat++;
 				}
-	            printf("berhasil tambhkan \n\n\n ");
+	            printf("berhasil tambahkan \n\n\n ");
 	            PrintInfo(InfoTree(Right(prev)));
 			}
 		}
@@ -398,7 +494,6 @@ vvoid SeparateTree(addressTree *root) {
 			top--;
 			last = still;
 	    }  
-		printf("HI");    
 	} while (lewat < 4);
 	fflush(stdin);
 	
@@ -430,10 +525,10 @@ vvoid SeparateTree(addressTree *root) {
 				count = CountNode(check);
 					while(isi !=Nil){
 						
-	//				max[i].info = isi->info;
+					strcpy(max[i].namaBarang, isi->info);
 	//				printf("\ninfo : %s ", max[i].info);
 					max[i].stok = isi->stok;
-					printf("\ninfo : %d ", max[i].stok);
+//					printf("\ninfo : %d ", max[i].stok);
 					max[i].hargaBeli = isi->hargaBeli;
 					max[i].hargaJual = isi->hargaJual;
 					max[i].keuntungan = isi->keuntungan;
@@ -460,27 +555,121 @@ vvoid SeparateTree(addressTree *root) {
 		printf("\n\nISI ARRAY : %d", hitungArray);
 		printf("\nArray sebelum sorting: \n");
 	    for (i = 0; i <= hitungArray-1 ; i++) {
-	        printf("%d ", max[i].stok);
+	    	printf("\nIndex \t\t : %d \n", i);
+	    	printf("Nama Barang \t : %s \n", max[i].namaBarang);
+	        printf("stok \t\t : %d \n", max[i].stok);
+	        printf("harga jual \t :%d \n", max[i].hargaJual);
+	        printf("harga beli \t :%d \n", max[i].hargaBeli);
+	        printf("harga beli \t :%d \n", max[i].keuntungan);
 	    }
 	    
 	    //sorting pada array
-		// BESAR KE KECIL
-		int j;
-		for (i = 0; i < hitungArray-1; i++) {
-		    for (j = 0; j < hitungArray-i-1; j++) {
-		        if (max[j].stok < max[j+1].stok) {
-		            // Swap the elements
-		            temp = max[j];
-		            max[j] = max[j+1];
-		            max[j+1] = temp;
-		        }
+		if (pilihan == 1){
+			if (pilih == 1){
+				for ( i = 0; i < hitungArray-1; i++) {
+	        		for ( j = 0; j < hitungArray-i-1; j++) {
+	            		if (max[j+1].stok > max[j].stok) {
+	              		  temp = max[j];
+	                		max[j] = max[j+1];
+	                		max[j+1] = temp;
+	            		}
+	            	}
+				}
 		    }
+		    else if (pilih == 2){
+		    	for (i = 0; i < hitungArray-1; i++) {
+    				for (j = 0; j < hitungArray-i-1; j++) {
+      				  if (max[j].stok > max[j+1].stok) {
+         			   temp = max[j];
+          			  max[j] = max[j+1];
+          			  max[j+1] = temp;
+      				  }
+    				}
+				}
+			}
 		}
-	    
+		else if (pilihan == 2){
+			if (pilih == 1){
+				for ( i = 0; i < hitungArray-1; i++) {
+	        		for ( j = 0; j < hitungArray-i-1; j++) {
+	            		if (max[j+1].hargaJual > max[j].hargaJual) {
+	              		  temp = max[j];
+	                		max[j] = max[j+1];
+	                		max[j+1] = temp;
+	            		}
+	            	}
+				}
+		    }
+		    else if (pilih == 2){
+		    	for (i = 0; i < hitungArray-1; i++) {
+    				for (j = 0; j < hitungArray-i-1; j++) {
+      				  if (max[j].hargaJual > max[j+1].hargaJual) {
+         			   temp = max[j];
+          			  max[j] = max[j+1];
+          			  max[j+1] = temp;
+      				  }
+    				}
+				}
+			}
+		}
+		else if (pilihan == 3){
+			if (pilih == 1){
+				for ( i = 0; i < hitungArray-1; i++) {
+	        		for ( j = 0; j < hitungArray-i-1; j++) {
+	            		if (max[j+1].hargaBeli > max[j].hargaBeli) {
+	              		  temp = max[j];
+	                		max[j] = max[j+1];
+	                		max[j+1] = temp;
+	            		}
+	            	}
+				}
+		    }
+		    else if (pilih == 2){
+		    	for (i = 0; i < hitungArray-1; i++) {
+    				for (j = 0; j < hitungArray-i-1; j++) {
+      				  if (max[j].hargaBeli > max[j+1].hargaBeli) {
+         			   temp = max[j];
+          			  max[j] = max[j+1];
+          			  max[j+1] = temp;
+      				  }
+    				}
+				}
+			}
+		}
+		else if (pilihan == 4){
+			if (pilih == 1){
+				for ( i = 0; i < hitungArray-1; i++) {
+	        		for ( j = 0; j < hitungArray-i-1; j++) {
+	            		if (max[j+1].keuntungan > max[j].keuntungan) {
+	              		  temp = max[j];
+	                		max[j] = max[j+1];
+	                		max[j+1] = temp;
+	            		}
+	            	}
+				}
+		    }
+		    else if (pilih == 2){
+		    	for (i = 0; i < hitungArray-1; i++) {
+    				for (j = 0; j < hitungArray-i-1; j++) {
+      				  if (max[j].keuntungan > max[j+1].keuntungan) {
+         			   temp = max[j];
+          			  max[j] = max[j+1];
+          			  max[j+1] = temp;
+      				  }
+    				}
+				}
+			}
+		}
+
 	    printf("\n\nISI ARRAY : %d", hitungArray);
 	    printf("\nArray setelah sorting: \n");
 	    for (i = 0; i <= hitungArray-1 ; i++) {
-	        printf("%d ", max[i].stok);
+	    	printf("\nIndex \t\t : %d \n", i);
+	    	printf("Nama Barang \t : %s \n", max[i].namaBarang);
+	        printf("stok \t\t : %d \n", max[i].stok);
+	        printf("harga jual \t :%d \n", max[i].hargaJual);
+	        printf("harga beli \t :%d \n", max[i].hargaBeli);
+	        printf("harga beli \t :%d \n", max[i].keuntungan);
 	    }
 	    
 	    //membuat lkst baru untuk array yang telah disorting
@@ -495,7 +684,7 @@ vvoid SeparateTree(addressTree *root) {
 		P = (address)malloc(sizeof(persediaanBarang));
 			if (P != Nil)
 			{
-		    	//Info(P) = max[i].info;
+		    	strcpy(Info(P), max[i].namaBarang);
 		    	Stok(P) = max[i].stok;
 		    	Beli(P) = max[i].hargaBeli;
 		    	Jual(P) = max[i].hargaJual;
@@ -550,7 +739,7 @@ vvoid SeparateTree(addressTree *root) {
 					Right(prev) = daun;
 	            	Left(prev) = daun;
 	            	lewat++;	
-	            printf("berhasil tambhkan \n\n\n ");
+	            printf("berhasil tambahkan \n\n\n ");
 	            PrintInfo(InfoTree(Right(prev)));
 			}
 		}
