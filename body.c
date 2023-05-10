@@ -164,11 +164,12 @@ void SeparateNode(List *L, List *bagian2)
 }
 
 void SeparateTree(addressTree *root) {
-    addressTree stack[MAX_SIZE], last, still, anak1, anak2, prev, priv, awalan;
+	//kamus data
+    addressTree stack[MAX_SIZE], last, still, anak1, anak2, prev, priv;
     List check, bagian, chick;
-    		addressTree daun, tempDaun;
-int lewat;
-lewat = 0;
+    addressTree daun, tempDaun;
+	int lewat;
+	lewat = 0;
 
 	array max[MAX_SIZE];
 	array temp;
@@ -176,6 +177,7 @@ lewat = 0;
     address isi, izi;
     int count, top, itung;
     
+    //membagi root menjadi berisi satu node saja setiap bagiannya
     if (*root == Nil) {
         return;
     }
@@ -183,7 +185,6 @@ lewat = 0;
 	top = -1;
     prev = *root;
     still = *root;
-    awalan = still;
     
     do {	
 		if(top != -1){
@@ -196,62 +197,55 @@ lewat = 0;
 			last = *root;
             *root = (*root)->left;
         }
-        priv = stack[top];
-	    chick = priv->infoTree;
-	    itung = CountNode(chick);
-	    printf("\nSTACK SAAT INI ATAS : %d", itung);
-        while (top != -1 && (stack[top]->right == NULL || stack[top]->right == prev)) {
-        	if(stack[top]->right != prev){
-			prev = stack[top--];
-            check = prev->infoTree;
-            isi = First(check);
-            if(isi != Nil){
-            	count = CountNode(check);
-            	if (count != 1)
-            	{
-					CreateList(&bagian);
-					SeparateNode(&check, &bagian);
-					anak1 = CreateTree(&check);
-					anak2 = CreateTree(&bagian);
-    				last->left = anak1;
-    				last->right = anak2;
-    				*root = last;
-    				last = last->left;
-    				printf("\n===================================\n");
-    				printf("First half: ");
-    				PrintInfo(check);
-    				printf("\n------------------------------------\n");
-					printf("Second half: ");
-    				PrintInfo(bagian);
-    				printf("\n===================================\n");
-    				count = CountNode(check);
-    				printf("\nitungan : %d", count);
-    				printf("\nISI : %s", izi->info);
-    				if(count != 1)
-					{
-    					stack[++top] = anak1;
-    					stack[++top] = anak1;
-    				}
+	        priv = stack[top];
+		    chick = priv->infoTree;
+		    itung = CountNode(chick);
+		    printf("\nSTACK SAAT INI ATAS : %d", itung);
+	        while (top != -1 && (stack[top]->right == NULL || stack[top]->right == prev)) {
+	        	if(stack[top]->right != prev){
+				prev = stack[top--];
+	            check = prev->infoTree;
+	            isi = First(check);
+	            if(isi != Nil){
+	            	count = CountNode(check);
+	            	if (count != 1)
+	            	{
+						CreateList(&bagian);
+						SeparateNode(&check, &bagian);
+						anak1 = CreateTree(&check);
+						anak2 = CreateTree(&bagian);
+	    				last->left = anak1;
+	    				last->right = anak2;
+	    				*root = last;
+	    				last = last->left;
+	    				printf("\n===================================\n");
+	    				printf("First half: ");
+	    				PrintInfo(check);
+	    				printf("\n------------------------------------\n");
+						printf("Second half: ");
+	    				PrintInfo(bagian);
+	    				printf("\n===================================\n");
+	    				count = CountNode(check);
+	    				printf("\nitungan : %d", count);
+	    				printf("\nISI : %s", izi->info);
+	    				if(count != 1)
+						{
+	    					stack[++top] = anak1;
+	    					stack[++top] = anak1;
+	    				}
+					}
+				} 
+				else {
+					printf("Isi Tree kosong");
 				}
-			} else {
-				printf("Isi Tree kosong");
+	        } 
+			else {
+	    		prev = stack[top--];
 			}
-        } else {
-    			prev = stack[top--];
-			}
-    }
-        if (top != -1) {
-			priv = stack[top];
-	        chick = priv->infoTree;
-	        itung = CountNode(chick);
-	        printf("\nSTACK SAAT INI BAWAH : %d", itung);
-			*root = stack[top]->right;
-			printf("\ntop TENGAH %d", top);
-        }
-        printf("\ntop AKHIR %d", top);    
+    	}    
     } while (top != -1);
     
-    
+    //memasukkan setiap ujung node yang berjumlah satu kedalam array yang berbeda
     int i;
     prev = Nil;
     i = 0;
@@ -305,6 +299,7 @@ lewat = 0;
 		}
 		printf("\n\nISI ARRAY : %d", hitungArray);
 		
+		//sorting pada array
 		// BESAR KE KECIL
 		for (i = 0; i <= hitungArray-1; i++) {
 	        if (max[i+1].stok > max[i].stok) {
@@ -320,14 +315,15 @@ lewat = 0;
 	        printf("%d ", max[i].stok);
 	    }
 	    
+	    //membuat list berdasarkan array yang sudah disorting
 	    List newNode;
 		address P;
 		address Last;
 		CreateList(&newNode);
-	
+		//memasukkan setiap ellemen array ke list
 		i = 0;
 		for (i = 0; i <= hitungArray-1 ; i++) {
-		P = (address)malloc(sizeof(persediaanBarang));
+			P = (address)malloc(sizeof(persediaanBarang));
 			if (P != Nil)
 			{
 		    	//Info(P) = max[i].info;
@@ -337,20 +333,20 @@ lewat = 0;
 		    	Keuntungan(P) = max[i].keuntungan;
 				Next(P) = Nil;
 			}
-		if (P != Nil)
-		{
-			if (First(newNode) != Nil){
-				Last = First(newNode);
-				while (Next(Last) != Nil){
-					Last = Next(Last);
-				}
-				Next(Last) = P;
-			}
-			else
+			if (P != Nil)
 			{
-				First(newNode) = P;
+				if (First(newNode) != Nil){
+					Last = First(newNode);
+					while (Next(Last) != Nil){
+						Last = Next(Last);
+					}
+					Next(Last) = P;
+				}
+				else
+				{
+					First(newNode) = P;
+				}
 			}
-		}
 		}
 		printf("isi list :::");
 		PrintInfo(newNode);
@@ -358,6 +354,7 @@ lewat = 0;
 		stop = true;
 		last = *root;
 		
+		//membuat node tree berisi list yang sudah disorting
 		if(daun != Nil){
 			tempDaun = daun;
 		}
@@ -366,6 +363,7 @@ lewat = 0;
 		PrintInfo(InfoTree(daun));
 	} while(top != -1);
 	
+	//menyambungkan node tree ke tree
 	*root = still;
 	stop = true;
 	prev = Nil;
@@ -390,7 +388,7 @@ lewat = 0;
 	            	Left(prev) = daun;
 	            	lewat++;
 				}
-	            printf("berhasil tambhkan \n\n\n ");
+	            printf("berhasil tambahkan \n\n\n ");
 	            PrintInfo(InfoTree(Right(prev)));
 			}
 		}
@@ -403,17 +401,17 @@ lewat = 0;
 	} while (lewat < 4);
 	fflush(stdin);
 	
+	//memasukkan setiap node tree yang telah diurutkan sebelumnya ke dalam array
 	top = -1;
 	*root = awalan;
 	last = Nil;
 	stop = true;
 	do{
 		do {
-						if(top == 0 && last == *root)
+				if(top == 0 && last == *root)
 			{
 				top--;
-			}
-				
+			}	
 			if(last == still){
 				top--;
 				stop = false;
@@ -429,7 +427,6 @@ lewat = 0;
 	            isi = First(check);
 				count = CountNode(check);
 					while(isi !=Nil){
-						
 	//				max[i].info = isi->info;
 	//				printf("\ninfo : %s ", max[i].info);
 					max[i].stok = isi->stok;
@@ -439,9 +436,9 @@ lewat = 0;
 					max[i].keuntungan = isi->keuntungan;
 					i++;
 					isi = isi->next;
-			}
-			top--;
-			top--;
+				}
+				top--;
+				top--;
 			}
 			if (top != -1) {
 				*root = stack[top]->right;
@@ -459,30 +456,32 @@ lewat = 0;
 		}
 		printf("\n\nISI ARRAY : %d", hitungArray);
 		
+		//sorting pada array
 		// BESAR KE KECIL
-int j;
-for (i = 0; i < hitungArray-1; i++) {
-    for (j = 0; j < hitungArray-i-1; j++) {
-        if (max[j].stok < max[j+1].stok) {
-            // Swap the elements
-            temp = max[j];
-            max[j] = max[j+1];
-            max[j+1] = temp;
-        }
-    }
-}
-	    
+		int j;
+		for (i = 0; i < hitungArray-1; i++) {
+		    for (j = 0; j < hitungArray-i-1; j++) {
+		        if (max[j].stok < max[j+1].stok) {
+		            // Swap the elements
+		            temp = max[j];
+		            max[j] = max[j+1];
+		            max[j+1] = temp;
+		        }
+		    }
+		}
 	    printf("\n\nISI ARRAY : %d", hitungArray);
 	    printf("\nArray setelah sorting: \n");
 	    for (i = 0; i <= hitungArray-1 ; i++) {
 	        printf("%d ", max[i].stok);
 	    }
 	    
+	    //membuat list dari array yang telahh disorting
 	    List newNode;
 		address P;
 		address Last;
 		CreateList(&newNode);
 	
+		//memasukkan setiap elemen array ke list baru
 		i = 0;
 		for (i = 0; i <= hitungArray-1 ; i++) {
 		P = (address)malloc(sizeof(persediaanBarang));
@@ -516,6 +515,7 @@ for (i = 0; i < hitungArray-1; i++) {
 		stop = true;
 		last = *root;
 		
+		//membuat node tree untuk list yang telah disorting
 		if(daun != Nil){
 			tempDaun = daun;
 		}
@@ -524,6 +524,7 @@ for (i = 0; i < hitungArray-1; i++) {
 		PrintInfo(InfoTree(daun));
 	} while(top != -1);
 	
+	//menyambungkan node tree ke tree
 	*root = still;
 	stop = true;
 	prev = Nil;
@@ -555,20 +556,6 @@ for (i = 0; i < hitungArray-1; i++) {
 		printf("HI");    
 	} while (lewat < 4);
 	fflush(stdin);
-	
+}
 }
 
-//void bubbleSort(array arr[], int n) {
-//    int i, j;
-//    array temp;
-//    for (i = 0; i < n-1; i++) {
-//        for (j = 0; j < n-i-1; j++) {
-//            if (arr[j] > arr[j+1]) {
-//                // Swap arr[j] and arr[j+1]
-//                temp = arr[j];
-//                arr[j] = arr[j+1];
-//                arr[j+1] = temp;
-//            }
-//        }
-//    }
-//}
