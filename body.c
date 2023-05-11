@@ -29,13 +29,13 @@ address Alokasi(List *L)
 	P = (address)malloc(sizeof(persediaanBarang));
 	if (P != Nil) /* Alokasi berhasil */
 	{
-		printf("Masukkan nama barang\t: ");
+		printf("\t\t\t\t\t\t\t\tMasukkan nama barang\t: ");
     	scanf("%s", &Info(P));
-    	printf("Masukkan jumlah stok\t: ");
+    	printf("\t\t\t\t\t\t\t\tMasukkan jumlah stok\t: ");
     	scanf("%d", &Stok(P));
-    	printf("Masukkan harga beli\t: ");
+    	printf("\t\t\t\t\t\t\t\tMasukkan harga beli\t: ");
     	scanf("%d", &Beli(P));
-    	printf("Masukkan harga jual\t: ");
+    	printf("\t\t\t\t\t\t\t\tMasukkan harga jual\t: ");
     	scanf("%d", &Jual(P));
     	Keuntungan(P) = Jual(P) - Beli(P);
 		Next(P) = Nil;
@@ -71,12 +71,15 @@ void PrintInfo(List L){
 
 	if (First(L) == Nil)
 	{
-		printf("List Kosong .... \a\n");
+		printf("\t\t\t\t\t\t\t\tList Kosong .... \a\n");
 	}
 	else /* List memiliki elemen */
 	{
 		still = P;
 		P = First(L);
+		printf("\t\t\t\t\t\t|:-----------:|:-----------:|:----------:|:----------:|:---------:|\n");
+		printf("\t\t\t\t\t\t| Nama Barang | Jumlah Stok | Harga Beli | Harga Jual | Keuntungan |\n");
+		printf("\t\t\t\t\t\t|:-----------:|:-----------:|:----------:|:----------:|:---------:|\n");
 		while (P != Nil)
 		{
 			if (P == Nil)
@@ -86,11 +89,7 @@ void PrintInfo(List L){
 			}
 			else /* Belum berada di akhir List */
 			{
-				printf("\nNama barang\t: %s\n", Info(P));
-				printf("Jumlah stok\t: %d\n", Stok(P));
-				printf("Harga beli\t: Rp. %d\n", Beli(P));
-				printf("Harga jual\t: Rp. %d\n", Jual(P));
-				printf("Keuntungan\t: Rp. %d\n", Keuntungan(P));\
+				printf("\t\t\t\t\t\t|%12s |%12d |%11d |%11d |%10d |\n", Info(P), Stok(P), Beli(P), Jual(P), Keuntungan(P));
 				P = Next(P);
 			}
 			printf("\n");
@@ -139,7 +138,7 @@ addressTree CreateTree(List *L)
 //		}	
 	}
 	else{
-		printf("Isi tree kosong...");
+		printf("\t\t\t\t\t\t\t\tIsi tree kosong...");
 	}
 	return(root);
 }
@@ -215,13 +214,13 @@ void SeparateTree(addressTree *root, int pilihan, int pilih) {
 	    				last->right = anak2;
 	    				*root = last;
 	    				last = last->left;
-	    				printf("\n===================================\n");
-	    				printf("First half: ");
-	    				PrintInfo(check);
-	    				printf("\n------------------------------------\n");
-						printf("Second half: ");
-	    				PrintInfo(bagian);
-	    				printf("\n===================================\n");
+//	    				printf("\\t\t\t\t\t\t\t\tn===================================\n");
+//	    				printf("First half: ");
+//	    				PrintInfo(check);
+//	    				printf("\\t\t\t\t\t\t\t\tn------------------------------------\n");
+//						printf("Second half: ");
+//	    				PrintInfo(bagian);
+//	    				printf("\n\t\t\t\t\t\t\t\t===================================\n");
 	    				count = CountNode(check);
 	    				if(count != 1)
 						{
@@ -231,7 +230,7 @@ void SeparateTree(addressTree *root, int pilihan, int pilih) {
 					}
 				} 
 				else {
-					printf("Isi Tree kosong");
+					printf("\n\t\t\t\t\t\t\t\tIsi Tree kosong");
 				}
         	} 
 			else {
@@ -294,15 +293,15 @@ void SeparateTree(addressTree *root, int pilihan, int pilih) {
 			hitungArray = hitungArray + 1;
 			i++;
 		}
-		printf("\n\nISI ARRAY : %d", hitungArray);
-		printf("\nArray sebelum sorting: \n");
+//		printf("\n\\t\t\t\t\t\t\t\tnISI ARRAY : %d", hitungArray);
+//		printf("\n\t\t\t\t\t\t\t\tArray sebelum sorting: \n");
 		for (i = 0; i <= hitungArray-1 ; i++) {
-	    	printf("\nIndex \t\t : %d \n", i);
-	    	printf("Nama Barang \t : %s \n", max[i].namaBarang);
-	        printf("stok \t\t : %d \n", max[i].stok);
-	        printf("harga jual \t :%d \n", max[i].hargaJual);
-	        printf("harga beli \t :%d \n", max[i].hargaBeli);
-	        printf("harga beli \t :%d \n", max[i].keuntungan);
+//	    	printf("\n\t\t\t\t\t\t\t\tIndex \t\t : %d \n", i);
+//	    	printf("\t\t\t\t\t\t\t\tNama Barang \t : %s \n", max[i].namaBarang);
+//	        printf("\t\t\t\t\t\t\t\tstok \t\t : %d \n", max[i].stok);
+//	        printf("\t\t\t\t\t\t\t\tharga jual \t :%d \n", max[i].hargaJual);
+//	        printf("\t\t\t\t\t\t\t\tharga beli \t :%d \n", max[i].hargaBeli);
+//	        printf("\t\t\t\t\t\t\t\tharga beli \t :%d \n", max[i].keuntungan);
 	    }
 		//sorting pada array
 		if (pilihan == 1){
@@ -402,15 +401,15 @@ void SeparateTree(addressTree *root, int pilihan, int pilih) {
 			}
 		}
 	    
-	    printf("\n\nISI ARRAY : %d", hitungArray);
-	    printf("\nArray setelah sorting: \n");
+//	    printf("\n\n\t\t\t\t\t\t\t\tISI ARRAY : %d", hitungArray);
+//	    printf("\n\t\t\t\t\t\t\t\tArray setelah sorting: \n");
 	    for (i = 0; i <= hitungArray-1 ; i++) {
-	    	printf("\nIndex \t\t : %d \n", i);
-	    	printf("Nama Barang \t : %s \n", max[i].namaBarang);
-	        printf("stok \t\t : %d \n", max[i].stok);
-	        printf("harga jual \t :%d \n", max[i].hargaJual);
-	        printf("harga beli \t :%d \n", max[i].hargaBeli);
-	        printf("harga beli \t :%d \n", max[i].keuntungan);
+//	    	printf("\n\t\t\t\t\t\t\t\tIndex \t\t : %d \n", i);
+//	    	printf("\t\t\t\t\t\t\t\tNama Barang \t : %s \n", max[i].namaBarang);
+//	        printf("\t\t\t\t\t\t\t\tstok \t\t : %d \n", max[i].stok);
+//	        printf("\t\t\t\t\t\t\t\tharga jual \t :%d \n", max[i].hargaJual);
+//	        printf("\t\t\t\t\t\t\t\tharga beli \t :%d \n", max[i].hargaBeli);
+//	        printf("\t\t\t\t\t\t\t\tharga beli \t :%d \n", max[i].keuntungan);
 	    }
 	    
 	    //membuat list untuk array yang telah disorting
@@ -445,8 +444,8 @@ void SeparateTree(addressTree *root, int pilihan, int pilih) {
 				}
 			}
 		}
-		printf("isi list :::");
-		PrintInfo(newNode);
+//		printf("\t\t\t\t\t\t\t\tisi list :::");
+//		PrintInfo(newNode);
 		i = 0;
 		stop = true;
 		last = *root;
@@ -456,8 +455,8 @@ void SeparateTree(addressTree *root, int pilihan, int pilih) {
 			tempDaun = daun;
 		}
 		daun = CreateTree(&newNode);
-		printf("isi tree ::");
-		PrintInfo(InfoTree(daun));
+//		printf("isi tree ::");
+//		PrintInfo(InfoTree(daun));
 	} while(top != -1);
 	
 	//menyambungkan node tree baru ke tree
@@ -465,7 +464,7 @@ void SeparateTree(addressTree *root, int pilihan, int pilih) {
 	stop = true;
 	prev = Nil;
 	top = -1;
-	printf("\n\n\nMASUK\n\n\n ");
+//	printf("\n\n\n\t\t\t\t\t\t\t\tMASUK\n\n\n ");
 	do { 
 		while (*root != NULL) 
 		{
@@ -485,8 +484,8 @@ void SeparateTree(addressTree *root, int pilihan, int pilih) {
 	            	Left(prev) = daun;
 	            	lewat++;
 				}
-	            printf("berhasil tambahkan \n\n\n ");
-	            PrintInfo(InfoTree(Right(prev)));
+//	            printf("\t\t\t\t\t\t\t\tberhasil tambahkan \n\n\n ");
+//	            PrintInfo(InfoTree(Right(prev)));
 			}
 		}
 		if (top != -1) {
@@ -552,16 +551,16 @@ void SeparateTree(addressTree *root, int pilihan, int pilih) {
 			hitungArray = hitungArray + 1;
 			i++;
 		}
-		printf("\n\nISI ARRAY : %d", hitungArray);
-		printf("\nArray sebelum sorting: \n");
-	    for (i = 0; i <= hitungArray-1 ; i++) {
-	    	printf("\nIndex \t\t : %d \n", i);
-	    	printf("Nama Barang \t : %s \n", max[i].namaBarang);
-	        printf("stok \t\t : %d \n", max[i].stok);
-	        printf("harga jual \t :%d \n", max[i].hargaJual);
-	        printf("harga beli \t :%d \n", max[i].hargaBeli);
-	        printf("harga beli \t :%d \n", max[i].keuntungan);
-	    }
+//		printf("\n\n\t\t\t\t\t\t\t\tISI ARRAY : %d", hitungArray);
+//		printf("\n\t\t\t\t\t\t\t\tArray sebelum sorting: \n");
+//	    for (i = 0; i <= hitungArray-1 ; i++) {
+//	    	printf("\n\t\t\t\t\t\t\t\tIndex \t\t : %d \n", i);
+//	    	printf("\t\t\t\t\t\t\t\tNama Barang \t : %s \n", max[i].namaBarang);
+//	        printf("\t\t\t\t\t\t\t\tstok \t\t : %d \n", max[i].stok);
+//	        printf("\t\t\t\t\t\t\t\tharga jual \t :%d \n", max[i].hargaJual);
+//	        printf("\t\t\t\t\t\t\t\tharga beli \t :%d \n", max[i].hargaBeli);
+//	        printf("\t\t\t\t\t\t\t\tharga beli \t :%d \n", max[i].keuntungan);
+//	    }
 	    
 	    //sorting pada array
 		if (pilihan == 1){
@@ -661,16 +660,16 @@ void SeparateTree(addressTree *root, int pilihan, int pilih) {
 			}
 		}
 
-	    printf("\n\nISI ARRAY : %d", hitungArray);
-	    printf("\nArray setelah sorting: \n");
-	    for (i = 0; i <= hitungArray-1 ; i++) {
-	    	printf("\nIndex \t\t : %d \n", i);
-	    	printf("Nama Barang \t : %s \n", max[i].namaBarang);
-	        printf("stok \t\t : %d \n", max[i].stok);
-	        printf("harga jual \t :%d \n", max[i].hargaJual);
-	        printf("harga beli \t :%d \n", max[i].hargaBeli);
-	        printf("harga beli \t :%d \n", max[i].keuntungan);
-	    }
+//	    printf("\n\n\t\t\t\t\t\t\t\tISI ARRAY : %d", hitungArray);
+//	    printf("\n\t\t\t\t\t\t\t\tArray setelah sorting: \n");
+//	    for (i = 0; i <= hitungArray-1 ; i++) {
+//	    	printf("\n\t\t\t\t\t\t\t\tIndex \t\t : %d \n", i);
+//	    	printf("\t\t\t\t\t\t\t\tNama Barang \t : %s \n", max[i].namaBarang);
+//	        printf("\t\t\t\t\t\t\t\tstok \t\t : %d \n", max[i].stok);
+//	        printf("\t\t\t\t\t\t\t\tharga jual \t :%d \n", max[i].hargaJual);
+//	        printf("\t\t\t\t\t\t\t\tharga beli \t :%d \n", max[i].hargaBeli);
+//	        printf("\t\t\t\t\t\t\t\tharga beli \t :%d \n", max[i].keuntungan);
+//	    }
 	    
 	    //membuat lkst baru untuk array yang telah disorting
 	    List newNode;
@@ -706,8 +705,8 @@ void SeparateTree(addressTree *root, int pilihan, int pilih) {
 			}
 		}
 		}
-		printf("isi list :::");
-		PrintInfo(newNode);
+//		printf("\t\t\t\t\t\t\t\tisi list :::");
+//		PrintInfo(newNode);
 		i = 0;
 		stop = true;
 		last = *root;
@@ -717,8 +716,8 @@ void SeparateTree(addressTree *root, int pilihan, int pilih) {
 			tempDaun = daun;
 		}
 		daun = CreateTree(&newNode);
-		printf("isi tree ::");
-		PrintInfo(InfoTree(daun));
+//		printf("\t\t\t\t\t\t\t\tisi tree ::");
+//		PrintInfo(InfoTree(daun));
 	} while(top != -1);
 	
 	//menyambungkan node tree baru ke tree
@@ -726,7 +725,7 @@ void SeparateTree(addressTree *root, int pilihan, int pilih) {
 	stop = true;
 	prev = Nil;
 	top = -1;
-	printf("\n\n\nMASUK\n\n\n ");
+//	printf("\n\n\n\t\t\t\t\t\t\t\tMASUK\n\n\n ");
 	do { 
 		while (*root != NULL) 
 		{
@@ -739,7 +738,7 @@ void SeparateTree(addressTree *root, int pilihan, int pilih) {
 					Right(prev) = daun;
 	            	Left(prev) = daun;
 	            	lewat++;	
-	            printf("berhasil tambahkan \n\n\n ");
+//	            printf("\t\t\t\t\t\t\t\tberhasil tambahkan \n\n\n ");
 	            PrintInfo(InfoTree(Right(prev)));
 			}
 		}
@@ -750,7 +749,7 @@ void SeparateTree(addressTree *root, int pilihan, int pilih) {
 			*root = stack[top]->right;
 			last = still;
 	    }  
-		printf("HI");    
+//		printf("\t\t\t\t\t\t\t\tHI");    
 	} while (lewat < 4);
 	fflush(stdin);
 }
