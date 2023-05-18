@@ -87,9 +87,9 @@ void PrintInfo(List L){
 	{
 		still = P;
 		P = First(L);
-		printf("\t\t\t\t\t\t|:-----------:|:-----------:|:----------:|:----------:|:---------:|\n");
-		printf("\t\t\t\t\t\t| Nama Barang | Jumlah Stok | Harga Beli | Harga Jual | Keuntungan |\n");
-		printf("\t\t\t\t\t\t|:-----------:|:-----------:|:----------:|:----------:|:---------:|\n");
+		printf("\t\t\t\t\t\t\t\t|:-----------:|:-----------:|:----------:|:----------:|:---------:|\n");
+		printf("\t\t\t\t\t\t\t\t| Nama Barang | Jumlah Stok | Harga Beli | Harga Jual | Keuntungan |\n");
+		printf("\t\t\t\t\t\t\t\t|:-----------:|:-----------:|:----------:|:----------:|:---------:|\n");
 		while (P != Nil)
 		{
 			if (P == Nil)
@@ -99,11 +99,12 @@ void PrintInfo(List L){
 			}
 			else /* Belum berada di akhir List */
 			{
-				printf("\t\t\t\t\t\t|%12s |%12d |%11d |%11d |%10d |\n", Info(P), Stok(P), Beli(P), Jual(P), Keuntungan(P));
+				printf("\t\t\t\t\t\t\t\t|%12s |%12d |%11d |%11d |%10d |\n", Info(P), Stok(P), Beli(P), Jual(P), Keuntungan(P));
 				P = Next(P);
 			}
 			printf("\n");
 		}
+		printf("\t\t\t\t\t\t\t\t|:-----------:|:-----------:|:----------:|:----------:|:---------:|\n");
 	}
 }
 
@@ -171,7 +172,7 @@ void SeparateNode(List *L, List *bagian2)
     slow->next = NULL; 		
 }
 
-void SeparateTree(addressTree *root, int pilihan, int pilih) {
+void MergeSort(addressTree *root, int pilihan, int pilih) {
 	//kamus data
     addressTree stack[MAX_SIZE], last, still, anak1, anak2, prev, priv, awalan;
     List check, bagian, chick;
@@ -185,7 +186,7 @@ void SeparateTree(addressTree *root, int pilihan, int pilih) {
     address isi, izi;
     int i, j, count, top, itung;
     
-    //membagi roor menjadi satu node pada setiap anaknya
+    //membagi root menjadi satu node pada setiap anaknya
     if (*root == Nil) {
         return;
     }
@@ -761,4 +762,16 @@ void SeparateTree(addressTree *root, int pilihan, int pilih) {
 //		printf("\t\t\t\t\t\t\t\tHI");    
 	} while (lewat < 4);
 	fflush(stdin);
+}
+
+void header()
+{
+	printf("\t\t\t\t\t\t  ¦¦¦¦¦¦¦¦¦     ¦¦¦¦¦¦¦¦¦¦¦       ¦¦¦¦¦¦¦         ¦¦¦¦¦¦¦¦¦     ¦¦¦¦¦   ¦¦¦¦    ¦¦¦¦¦    ¦¦¦¦¦¦¦¦¦¦\n");
+	printf("\t\t\t\t\t\t ¦¦¦¦¦¦¦¦¦¦¦   ¦¦¦¦¦¦¦¦¦¦¦¦     ¦¦¦¦¦¦¦¦¦¦¦      ¦¦¦¦¦¦¦¦¦¦¦   ¦¦¦¦¦   ¦¦¦¦    ¦¦¦¦¦    ¦¦¦¦¦¦¦¦¦¦¦\n");
+	printf("\t\t\t\t\t\t¦¦¦¦           ¦   ¦¦¦¦  ¦     ¦¦¦     ¦¦¦¦¦    ¦¦¦     ¦¦¦     ¦¦¦¦  ¦¦¦       ¦¦¦¦     ¦¦¦¦  ¦ ¦\n"); 
+	printf("\t\t\t\t\t\t¦¦¦¦¦¦¦¦¦¦¦        ¦¦¦¦       ¦¦¦¦      ¦¦¦¦   ¦¦¦¦             ¦¦¦¦¦¦¦¦        ¦¦¦¦     ¦¦¦¦¦¦¦\n");   
+	printf("\t\t\t\t\t\t ¦¦¦¦¦¦¦¦¦¦¦       ¦¦¦¦       ¦¦¦¦      ¦¦¦¦   ¦¦¦¦             ¦¦¦¦¦¦¦¦¦       ¦¦¦¦     ¦¦¦¦¦¦¦\n");   
+	printf("\t\t\t\t\t\t        ¦¦¦¦       ¦¦¦¦       ¦¦¦¦¦     ¦¦¦    ¦¦¦¦¦     ¦¦¦    ¦¦¦¦ ¦¦¦¦¦      ¦¦¦¦     ¦¦¦¦ ¦   ¦\n");
+	printf("\t\t\t\t\t\t¦¦¦¦¦¦¦¦¦¦¦        ¦¦¦¦¦       ¦¦¦¦¦¦¦¦¦¦¦      ¦¦¦¦¦¦¦¦¦¦¦     ¦¦¦¦¦ ¦¦¦¦¦¦    ¦¦¦¦¦    ¦¦¦¦¦¦¦¦¦¦\n");
+	printf("\t\t\t\t\t\t ¦¦¦¦¦¦¦¦¦        ¦¦¦¦¦          ¦¦¦¦¦¦¦         ¦¦¦¦¦¦¦¦¦     ¦¦¦¦¦   ¦¦¦¦    ¦¦¦¦¦    ¦¦¦¦¦¦¦¦¦¦\n");                                                                                                                                                                                                                                                                                                                                                                                                                        
 }
