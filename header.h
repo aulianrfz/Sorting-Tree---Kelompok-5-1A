@@ -59,7 +59,7 @@ boolean IsEmpty (List L);
 
 void CreateList (List * L);
 
-address Alokasi (List *L);
+address Alokasi (List L);
 
 void InsertNode(List *L);
 
@@ -71,7 +71,7 @@ int CountNode(List L);
 
 boolean IsEmptyTree(addressTree root);
 
-addressTree CreateTree(List *L);
+addressTree CreateTree(List L);
 
 void SeparateNode(List *L, List *bagian2);
 

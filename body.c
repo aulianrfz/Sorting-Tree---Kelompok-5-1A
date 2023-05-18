@@ -21,24 +21,34 @@ void CreateList(List *L)
 	First(*L) = Nil;
 }
 
-address Alokasi(List *L)
+address Alokasi(List L)
 {
 	/* Kamus Lokal */
 	address P;
+	int i, ukuran;
+	char status;
 	/* Algoritma */
 	P = (address)malloc(sizeof(persediaanBarang));
 	if (P != Nil) /* Alokasi berhasil */
 	{
 		printf("\t\t\t\t\t\t\t\tMasukkan nama barang\t: ");
-    	scanf("%s", &Info(P));
+	    scanf("%s", &Info(P)); 
     	printf("\t\t\t\t\t\t\t\tMasukkan jumlah stok\t: ");
     	scanf("%d", &Stok(P));
     	printf("\t\t\t\t\t\t\t\tMasukkan harga beli\t: ");
     	scanf("%d", &Beli(P));
-    	printf("\t\t\t\t\t\t\t\tMasukkan harga jual\t: ");
-    	scanf("%d", &Jual(P));
-    	Keuntungan(P) = Jual(P) - Beli(P);
-		Next(P) = Nil;
+    	do{
+    		printf("\t\t\t\t\t\t\t\tMasukkan harga jual\t: ");
+    		scanf("%d", &Jual(P));
+    		if (Jual(P) >= Beli(P)){
+	    		Keuntungan(P) = Jual(P) - Beli(P);
+				Next(P) = Nil;
+			}
+			else{
+				printf("\t\t\t\t\t Harga jual yang anda masukkan kurang dari harga beli");
+				printf("\t\t\t\t\t Silakan masukkan ulang harga jual");
+			}
+		}while(Jual(P) < Beli(P));
 	}
 	return (P);
 }
@@ -121,9 +131,8 @@ boolean IsEmptyTree(addressTree root)
     }
 }
 
-addressTree CreateTree(List *L)
+addressTree CreateTree(List L)
 {
-
 	addressTree root;
 
 	root = (addressTree)malloc(sizeof(nbtree));
