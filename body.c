@@ -307,79 +307,101 @@ void InsertLeavesToArray(addressTree root, array *arr, int *index) {
     int top = -1;
     
 	int count = 0;
-    address itung;
-    addressTree node;
-    address isi;
+    address itung, isi;
     List check, link;
-    addressTree newTree;
+    addressTree newTree, baru, sibling, node;
     newTree = Nil;
+    boolean stop;
     
     *index = Nil;
+    int i;
     
-    stack[++top] = root;
+    int countroot;
     
+    check = root->infoTree;
+    isi = First(check);
+    countroot = CountNode(check);
+    printf("COUNT ROOT %d", countroot);
+
+	while(countroot != count)  {
+		stack[++top] = root;
+		stop = false;
     do{
-        node = stack[top--];
-            	
-    	check = node->infoTree;
+		node = stack[top--];
+        check = node->infoTree;
         isi = First(check);
-        
+//        count = CountNode(check);
+//        printf("ITUNG %d", count);
+//        if(!IsLeaf(node))
+//        {
+//        	printf("BUKAN DAUN");
+//		}else {printf("DAUN");
+//		}        
         if (IsLeaf(node)) {
-            strcpy((*arr)[*index].namaBarang, isi->info);
-            (*arr)[*index].stok = isi->stok;
-            (*arr)[*index].hargaBeli = isi->hargaBeli;
-            (*arr)[*index].hargaJual = isi->hargaJual;
-            (*arr)[*index].keuntungan = isi->keuntungan;
-            (*index)++;	 
+        	while(isi != Nil)
+        	{
+	            strcpy((*arr)[*index].namaBarang, isi->info);
+	            (*arr)[*index].stok = isi->stok;
+	            (*arr)[*index].hargaBeli = isi->hargaBeli;
+	            (*arr)[*index].hargaJual = isi->hargaJual;
+	            (*arr)[*index].keuntungan = isi->keuntungan;
+	            *index = (*index) + 1;	 
+	            isi = isi->next;
+	    	}
+	    		for ( i = 0; i < *index; i++) {
+		//	    printf("Nama Barang: %s\n", arr[i].namaBarang);
+			    printf("Stok: %d\n", (*arr)[i].stok);
+			    printf("Harga Beli: %d\n", (*arr)[i].hargaBeli);
+			    printf("Harga Jual: %d\n", (*arr)[i].hargaJual);
+			    printf("Keuntungan: %d\n", (*arr)[i].keuntungan);
+			    printf("-----------------------\n");
+			}
         }
-        
-        count = 0;        
-        itung = isi;
-        while (itung != NULL) {
-        	count++;
-        	itung = itung->next;
-    	}
-    	
-    	printf("COUNT %d", count);
-    	printf("INDEX %d", *index);
-    	
-    	addressTree sibling;
-    	
-    	if(count == 1 && newTree == Nil)
-        {
-           	sibling = node;
-		}
-        
+//		check = node->infoTree;
+//    	isi = First(check);
+//    	count = CountNode(check);
+//    	printf("COUNT %d", count);
+//    	printf("INDEX %d", *index);
+
         if (node->right != NULL) {
             stack[++top] = node->right;
+			if(node->right->left != Nil && node->right->right == Nil)
+            {
+            	stack[--top];
+			}
         }
         
         if (node->left != NULL) {
             stack[++top] = node->left;
         }
     
-    	if(count == 1 && *index != 1)
+    	if(IsLeaf(node) && stop == true)
     	{
-    		node->status = true;
+    		stop = false;
     		link = Merge(*arr, *index);
 			newTree = CreateTree(link);	
 			sibling->right = newTree;
-			node->left = newTree;	
+			sibling->left = Nil;
+			node->left = newTree;
+			node->right = Nil;
+			fflush(stdin);
+			baru = newTree;	
 			newTree = Nil;
 			*index = 0;	
-		}else {
-		node->status = false; }
+		}
 		
-			printf("\niyah %d", *index);
-			printf("\ntop %d", top);
-			if(node->status == true)
-			{
-				printf("IYA TRUE");
-			} else {printf("bukan true");
-			}
-		
-    } while ((node->status == false) || (top != -1 ));
-    
+		if(IsLeaf(node) && newTree == Nil)
+        {
+           	sibling = node;
+           	stop = true;
+		}
+
+    } while (top != -1 );
+//    	check = baru->infoTree;
+//    	isi = First(check);
+//    	count = CountNode(check);
+//    	printf("COUNT CURRENT %d", count);
+    }
 }
 
 List Merge(array arr, int index)
@@ -421,3 +443,5 @@ List Merge(array arr, int index)
 	
 	return(newNode);
 }
+
+
