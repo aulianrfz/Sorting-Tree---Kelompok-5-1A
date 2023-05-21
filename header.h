@@ -13,8 +13,6 @@
 #define First(L) (L).First
 #define Left(P) (P)->left
 #define Right(P) (P)->right
-#define Parent(P) (P)->parent
-#define Status(P) (P)->status
 #define InfoTree(P) (P)->infoTree
 #define FirstTree(T) (T).FirstTree
 #define MAX_SIZE 100
@@ -41,15 +39,14 @@ typedef struct NBtree *addressTree;
 typedef struct NBtree
 { 
 	List infoTree;
-	addressTree parent, left, right;
-	boolean status;
+	addressTree left, right;
 }nbtree;
 
 typedef struct element2{
 	addressTree FirstTree;
 }Tree;
 
-typedef struct array{
+typedef struct Item{
 	value namaBarang[50];
 	int stok;
 	int hargaBeli;
@@ -68,8 +65,6 @@ void InsertNode(List *L);
 
 void PrintInfo(List L);
 
-void DeleteAll(List *L);
-
 int CountNode(List L);
 
 boolean IsEmptyTree(addressTree root);
@@ -82,10 +77,14 @@ void SeparateNode(List *L, List *bagian1, List *bagian2);
 
 void SeparateTree(addressTree *root);
 
-void InsertLeavesToArray(addressTree root, array *arr, int *i);
+void MergeTree(addressTree root, array *arr, int *index,int pilihan, int pilih);
 
-void MergeSort(addressTree *root);
+List MergeList(array arr, int index, int pilihan, int pilih);
 
-List Merge(array arr, int index);
+void MergeSort(addressTree root, int pilih, int pilihan);
+
+void SortArray(struct Item arr[], int index, int pilihan, int pilih);
+
+void SwapItems(struct Item arr[], int j);
 
 #endif

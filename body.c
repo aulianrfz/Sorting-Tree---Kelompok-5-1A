@@ -142,8 +142,6 @@ addressTree CreateTree(List L)
 		InfoTree(root) = L;
 		Left(root) = NULL;
 		Right(root) = NULL;
-		Parent(root) = NULL;
-		Status(root) = false;
 		if (IsEmptyTree(root) == false){
 //			printf("\nIsi tree : \n\n");
 //			PrintInfo(InfoTree(root));
@@ -256,8 +254,6 @@ void SeparateTree(addressTree *root) {
 						anak2 = CreateTree(bagian2);
 	    				last->left = anak1;
 	    				last->right = anak2;
-	    				Parent(anak1) = last;
-	    				Parent(anak2) = last;
 	    				still = last;
 	    				last = last->left;
 	    				printf("\\t\t\t\t\t\t\t\tn===================================\n");
@@ -290,7 +286,7 @@ void SeparateTree(addressTree *root) {
 }
 
 boolean IsLeaf(addressTree node) {
-	if (node != NULL && node->left == NULL && node->right == NULL){
+	if (node->left == NULL && node->right == NULL){
 		return true;
 	}
 	else {
@@ -298,7 +294,7 @@ boolean IsLeaf(addressTree node) {
 	}
 }
 
-void InsertLeavesToArray(addressTree root, array *arr, int *index) {
+void MergeTree(addressTree root, array *arr, int *index, int pilihan, int pilih) {
     if (root == NULL) {
         return;
     }
@@ -307,9 +303,12 @@ void InsertLeavesToArray(addressTree root, array *arr, int *index) {
     int top = -1;
     
 	int count = 0;
-    address itung, isi;
+    address itung;
+    addressTree node;
+    address isi;
     List check, link;
-    addressTree newTree, baru, sibling, node;
+    addressTree newTree, baru;
+    addressTree sibling;
     newTree = Nil;
     boolean stop;
     
@@ -320,91 +319,74 @@ void InsertLeavesToArray(addressTree root, array *arr, int *index) {
     
     check = root->infoTree;
     isi = First(check);
-    countroot = CountNode(check);
-    printf("COUNT ROOT %d", countroot);
-
+    countroot = CountNode(check); 
 	while(countroot != count)  {
 		stack[++top] = root;
 		stop = false;
-    do{
-		node = stack[top--];
-        check = node->infoTree;
-        isi = First(check);
-//        count = CountNode(check);
-//        printf("ITUNG %d", count);
-//        if(!IsLeaf(node))
-//        {
-//        	printf("BUKAN DAUN");
-//		}else {printf("DAUN");
-//		}        
-        if (IsLeaf(node)) {
-        	while(isi != Nil)
-        	{
-	            strcpy((*arr)[*index].namaBarang, isi->info);
-	            (*arr)[*index].stok = isi->stok;
-	            (*arr)[*index].hargaBeli = isi->hargaBeli;
-	            (*arr)[*index].hargaJual = isi->hargaJual;
-	            (*arr)[*index].keuntungan = isi->keuntungan;
-	            *index = (*index) + 1;	 
-	            isi = isi->next;
-	    	}
-	    		for ( i = 0; i < *index; i++) {
-		//	    printf("Nama Barang: %s\n", arr[i].namaBarang);
-			    printf("Stok: %d\n", (*arr)[i].stok);
-			    printf("Harga Beli: %d\n", (*arr)[i].hargaBeli);
-			    printf("Harga Jual: %d\n", (*arr)[i].hargaJual);
-			    printf("Keuntungan: %d\n", (*arr)[i].keuntungan);
-			    printf("-----------------------\n");
+	    do{
+			node = stack[top--];
+	        check = node->infoTree;
+	        isi = First(check);
+	        count = CountNode(check);           	
+	    	check = node->infoTree;
+	        isi = First(check);
+	        
+	        if (IsLeaf(node)) {
+	        	while(isi != Nil)
+	        	{
+		            strcpy((*arr)[*index].namaBarang, isi->info);
+		            (*arr)[*index].stok = isi->stok;
+		            (*arr)[*index].hargaBeli = isi->hargaBeli;
+		            (*arr)[*index].hargaJual = isi->hargaJual;
+		            (*arr)[*index].keuntungan = isi->keuntungan;
+		            *index = (*index) + 1;
+		            isi = isi->next;
+		    	}
+	        }
+	        
+			check = node->infoTree;
+	    	isi = First(check);
+	    	count = CountNode(check);
+	        
+	        if (node->right != NULL) {
+	            stack[++top] = node->right;
+				if(node->right->left != Nil && node->right->right == Nil)
+	            {
+	            	stack[--top];
+				}
+	        }
+	        
+	        if (node->left != NULL) {
+	            stack[++top] = node->left;
+	        }
+	    
+	    	if(IsLeaf(node) && stop == true)
+	    	{
+	    		stop = false;
+	    		link = MergeList(*arr, *index, pilihan, pilih);
+				newTree = CreateTree(link);	
+				sibling->right = newTree;
+				sibling->left = Nil;
+				node->left = newTree;
+				node->right = Nil;
+				fflush(stdin);
+				baru = newTree;	
+				newTree = Nil;
+				*index = 0;	
 			}
-        }
-//		check = node->infoTree;
-//    	isi = First(check);
-//    	count = CountNode(check);
-//    	printf("COUNT %d", count);
-//    	printf("INDEX %d", *index);
-
-        if (node->right != NULL) {
-            stack[++top] = node->right;
-			if(node->right->left != Nil && node->right->right == Nil)
-            {
-            	stack[--top];
+			if(IsLeaf(node) && newTree == Nil)
+	        {
+	           	sibling = node;
+	           	stop = true;
 			}
-        }
-        
-        if (node->left != NULL) {
-            stack[++top] = node->left;
-        }
-    
-    	if(IsLeaf(node) && stop == true)
-    	{
-    		stop = false;
-    		link = Merge(*arr, *index);
-			newTree = CreateTree(link);	
-			sibling->right = newTree;
-			sibling->left = Nil;
-			node->left = newTree;
-			node->right = Nil;
-			fflush(stdin);
-			baru = newTree;	
-			newTree = Nil;
-			*index = 0;	
-		}
-		
-		if(IsLeaf(node) && newTree == Nil)
-        {
-           	sibling = node;
-           	stop = true;
-		}
-
-    } while (top != -1 );
-//    	check = baru->infoTree;
-//    	isi = First(check);
-//    	count = CountNode(check);
-//    	printf("COUNT CURRENT %d", count);
+	    } while (top != -1 );
+    	check = baru->infoTree;
+    	isi = First(check);
+    	count = CountNode(check);
     }
 }
 
-List Merge(array arr, int index)
+List MergeList(array arr, int index, int pilihan, int pilih)
 {
 	List newNode;
 	address P;
@@ -412,12 +394,13 @@ List Merge(array arr, int index)
 	CreateList(&newNode);
 	int i;
 	
+	SortArray(arr, index, pilihan, pilih);
     //memasukkan setiap elemen pada array ke dalam list
 	for (i = 0; i < index ; i++) {
 		P = (address)malloc(sizeof(persediaanBarang));
 		if (P != Nil)
 		{
-		//	strcpy(Info(P), arr[i].namaBarang);
+			strcpy(Info(P), (arr)[i].namaBarang);
 	    	Stok(P) = (arr)[i].stok;
 	    	Beli(P) = (arr)[i].hargaBeli;
 	    	Jual(P) = (arr)[i].hargaJual;
@@ -437,11 +420,60 @@ List Merge(array arr, int index)
 				}
 			}
 	}
-	
-	printf("BERHASIL");
 	PrintInfo(newNode);
 	
 	return(newNode);
 }
 
+void SortArray(struct Item arr[], int index, int pilihan, int pilih) {
+    int i, j;
+    struct Item temp;
+    
+    for (i = 0; i < index - 1; i++) {
+        for (j = 0; j < index - i - 1; j++) {
+            // Memilih kategori pengurutan
+            switch (pilihan) {
+                case 1:
+                    if ((pilih == 1 && arr[j].stok > arr[j + 1].stok) ||
+                        (pilih == 2 && arr[j].stok < arr[j + 1].stok)) {
+                        SwapItems(arr, j);
+                    }
+                    break;
+                case 2: 
+                    if ((pilih == 1 && arr[j].hargaBeli > arr[j + 1].hargaBeli) ||
+                        (pilih == 2 && arr[j].hargaBeli < arr[j + 1].hargaBeli)) {
+                        SwapItems(arr, j);
+                    }
+                    break;
+                case 3: 
+	                if ((pilih == 1 && arr[j].hargaJual > arr[j + 1].hargaJual) ||
+	                    (pilih == 2 && arr[j].hargaJual < arr[j + 1].hargaJual)) {
+	                    SwapItems(arr, j);
+                    }
+                	break;
+                case 4:
+                	if ((pilih == 1 && arr[j].keuntungan > arr[j + 1].keuntungan) ||
+	                    (pilih == 2 && arr[j].keuntungan < arr[j + 1].keuntungan)) {
+	                    SwapItems(arr, j);
+                    }
+            }
+        }
+    }
+}
+
+void SwapItems(struct Item arr[], int j){
+    struct Item temp;
+    temp = arr[j];
+    arr[j] = arr[j+1];
+    arr[j+1] = temp;
+}
+
+void MergeSort(addressTree root, int pilihan, int pilih) {
+    array arr;
+    int i, index;
+
+	SeparateTree(&root);	
+    index = 0;
+	MergeTree(root, &arr, &index, pilihan, pilih);  
+}
 

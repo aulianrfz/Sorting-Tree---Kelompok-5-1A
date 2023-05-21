@@ -73,156 +73,133 @@ int main()
 			system("cls");
 			break;
 		case 3 :
-			root = CreateTree(stokBarang);
-			SeparateTree(&root);
-			array arr;
-			index = 0;
-			
-			InsertLeavesToArray(root, &arr, &index);
-			
-			// Mengakses elemen array
-			for ( i = 0; i < index; i++) {
-			    printf("Nama Barang: %s\n", arr[i].namaBarang);
-			    printf("Stok: %d\n", arr[i].stok);
-			    printf("Harga Beli: %d\n", arr[i].hargaBeli);
-			    printf("Harga Jual: %d\n", arr[i].hargaJual);
-			    printf("Keuntungan: %d\n", arr[i].keuntungan);
-			    printf("-----------------------\n");
-			}
-//			while (true){
-//				printf("\t\t\t\t\t\t\t\tHal yang akan disorting : ");
-//				printf("\n\t\t\t\t\t\t\t\t1. Stok Barang");
-//				printf("\n\t\t\t\t\t\t\t\t2. Harga Jual");
-//				printf("\n\t\t\t\t\t\t\t\t3. Harga Beli");
-//				printf("\n\t\t\t\t\t\t\t\t4. Keuntungan");
-//				printf("\n\t\t\t\t\t\t\t\t0. Back");
-//				printf("\n\t\t\t\t\t\t\t\tPilihan : ");		
-//				scanf("%d", &pilihan);
-//				getchar();
-//				switch (pilihan)
-//				{
-//				case 1 :
-//						while (true){
-//							printf("\t\t\t\t\t\t\t\tSorting secara : ");
-//							printf("\n\t\t\t\t\t\t\t\t1. Ascending");
-//							printf("\n\t\t\t\t\t\t\t\t2. Descending");
-//							printf("\n\t\t\t\t\t\t\t\t0. Back");
-//							printf("\n\t\t\t\t\t\t\t\tPilihan : ");		
-//							scanf("%d", &pilih);
-//							getchar();
-//							switch (pilih)
-//							{
-//							case 1 :
-//								root = CreateTree(&stokBarang);
-//								awal = root;	 
-//								MergeSort(&root, 1, 1);
-//								getchar();
-//								system("cls");
-//								break;
-//							case 2 :
-//								root = CreateTree(&stokBarang);	 
-//								awal = root;
-//								MergeSort(&root, 1, 2);
-//								getchar();
-//								system("cls");
-//								break;
-//							case 0:
-//								goto menu;
-//							}
-//						}
-//				case 2 :
-//						while (true){
-//							printf("\t\t\t\t\t\t\t\tSorting secara : ");
-//							printf("\n\t\t\t\t\t\t\t\t1. Ascending");
-//							printf("\n\t\t\t\t\t\t\t\t2. Descending");
-//							printf("\n\t\t\t\t\t\t\t\tPilihan : ");	
-//							printf("\n\t\t\t\t\t\t\t\t0. Back");	
-//							scanf("%d", &pilih);
-//							getchar();
-//							switch (pilih)
-//							{
-//							case 1 :
-//								root = CreateTree(&stokBarang);	 
-//								MergeSort(&root, 2, 1);
-//								getchar();
-//								system("cls");
-//								break;
-//							case 2 :
-//								root = CreateTree(&stokBarang);	 
-//								MergeSort(&root, 2, 2);
-//								getchar();
-//								system("cls");
-//								break;
-//							case 0:
-//								goto menu;
-//							}
-//						}
-//				case 3 :
-//						while (true){
-//							printf("\t\t\t\t\t\t\t\tSorting secara : ");
-//							printf("\n\t\t\t\t\t\t\t\t1. Ascending");
-//							printf("\n\t\t\t\t\t\t\t\t2. Descending");
-//							printf("\n\t\t\t\t\t\t\t\tPilihan : ");	
-//							printf("\n\t\t\t\t\t\t\t\t0. Back");	
-//							scanf("%d", &pilih);
-//							getchar();
-//							switch (pilih)
-//							{
-//							case 1 :
-//								root = CreateTree(&stokBarang);	 
-//								MergeSort(&root, 3, 1);
-//								getchar();
-//								system("cls");
-//								break;
-//							case 2 :
-//								root = CreateTree(&stokBarang);	 
-//								MergeSort(&root, 3, 2);
-//								getchar();
-//								system("cls");
-//								break;
-//							case 0:
-//								goto menu;
-//							}
-//						}
-//				case 4 :
-//						while (true){
-//							printf("Sorting secara : ");
-//							printf("\n\t\t\t\t\t\t\t\t1. Ascending");
-//							printf("\n\t\t\t\t\t\t\t\t2. Descending");
-//							printf("\n\t\t\t\t\t\t\t\tPilihan : ");	
-//							printf("\n\t\t\t\t\t\t\t\t0. Back");	
-//							scanf("%d", &pilih);
-//							getchar();
-//							switch (pilih)
-//							{
-//							case 1 :
-//								root = CreateTree(&stokBarang);	 
-//								MergeSort(&root, 4, 1);
-//								getchar();
-//								system("cls");
-//								break;
-//							case 2 :
-//								root = CreateTree(&stokBarang);	 
-//								MergeSort(&root, 4, 2);
-//								getchar();
-//								system("cls");
-//								break;
-//							case 0:
-//								goto menu;
-//							}
-//						}
-//					}
-//				case 0:
-//					goto menu;
-//				}
+			while (true){
+				printf("\t\t\t\t\t\t\t\tHal yang akan disorting : ");
+				printf("\n\t\t\t\t\t\t\t\t1. Stok Barang");
+				printf("\n\t\t\t\t\t\t\t\t2. Harga Beli");
+				printf("\n\t\t\t\t\t\t\t\t3. Harga Jual");
+				printf("\n\t\t\t\t\t\t\t\t4. Keuntungan");
+				printf("\n\t\t\t\t\t\t\t\t0. Back");
+				printf("\n\t\t\t\t\t\t\t\tPilihan : ");		
+				scanf("%d", &pilihan);
+				getchar();
+				switch (pilihan)
+				{
+				case 1 :
+						while (true){
+							printf("\t\t\t\t\t\t\t\tSorting secara : ");
+							printf("\n\t\t\t\t\t\t\t\t1. Ascending");
+							printf("\n\t\t\t\t\t\t\t\t2. Descending");
+							printf("\n\t\t\t\t\t\t\t\t0. Back");
+							printf("\n\t\t\t\t\t\t\t\tPilihan : ");		
+							scanf("%d", &pilih);
+							getchar();
+							switch (pilih)
+							{
+							case 1 :
+								root = CreateTree(stokBarang);	 
+								MergeSort(root, 1, 1);
+								getchar();
+								system("cls");
+								break;
+							case 2 :
+								root = CreateTree(stokBarang);	 
+								MergeSort(root, 1, 2);
+								getchar();
+								system("cls");
+								break;
+							case 0:
+								goto menu;
+							}
+						}
+				case 2 :
+						while (true){
+							printf("\t\t\t\t\t\t\t\tSorting secara : ");
+							printf("\n\t\t\t\t\t\t\t\t1. Ascending");
+							printf("\n\t\t\t\t\t\t\t\t2. Descending");
+							printf("\n\t\t\t\t\t\t\t\tPilihan : ");	
+							printf("\n\t\t\t\t\t\t\t\t0. Back");	
+							scanf("%d", &pilih);
+							getchar();
+							switch (pilih)
+							{
+							case 1 :
+								root = CreateTree(stokBarang);	 
+								MergeSort(root, 2, 1);
+								getchar();
+								system("cls");
+								break;
+							case 2 :
+								root = CreateTree(stokBarang);	 
+								MergeSort(root, 2, 2);
+								getchar();
+								system("cls");
+								break;
+							case 0:
+								goto menu;
+							}
+						}
+				case 3 :
+						while (true){
+							printf("\t\t\t\t\t\t\t\tSorting secara : ");
+							printf("\n\t\t\t\t\t\t\t\t1. Ascending");
+							printf("\n\t\t\t\t\t\t\t\t2. Descending");
+							printf("\n\t\t\t\t\t\t\t\tPilihan : ");	
+							printf("\n\t\t\t\t\t\t\t\t0. Back");	
+							scanf("%d", &pilih);
+							getchar();
+							switch (pilih)
+							{
+							case 1 :
+								root = CreateTree(stokBarang);	 
+								MergeSort(root, 3, 1);
+								getchar();
+								system("cls");
+								break;
+							case 2 :
+								root = CreateTree(stokBarang);	 
+								MergeSort(root, 3, 2);
+								getchar();
+								system("cls");
+								break;
+							case 0:
+								goto menu;
+							}
+						}
+				case 4 :
+						while (true){
+							printf("Sorting secara : ");
+							printf("\n\t\t\t\t\t\t\t\t1. Ascending");
+							printf("\n\t\t\t\t\t\t\t\t2. Descending");
+							printf("\n\t\t\t\t\t\t\t\t0. Back");
+							printf("\n\t\t\t\t\t\t\t\tPilihan : ");		
+							scanf("%d", &pilih);
+							getchar();
+							switch (pilih)
+							{
+							case 1 :
+								root = CreateTree(stokBarang);	 
+								MergeSort(root, 4, 1);
+								getchar();
+								system("cls");
+								break;
+							case 2 :
+								root = CreateTree(stokBarang);	 
+								MergeSort(root, 4, 2);
+								getchar();
+								system("cls");
+								break;
+							case 0:
+								goto menu;
+							}
+						}
+					}
+				case 0:
+					goto menu;
+				}
 			getchar();
 			system("cls");
-			break;
-//		case 4 :
-//			traversal(root);
-//			getchar();
-//			system("cls");
-//			break;		
+			break;	
 		default:
 			printf("Input Salah...");
 			getchar();
