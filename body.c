@@ -211,16 +211,6 @@ void SeparateNode(List *L, List *bagian1, List *bagian2)
     slow->next = NULL;	
 }
 
-<<<<<<< HEAD
-=======
-void SeparateTree(addressTree *root, int pilihan, int pilih) {
-	//kamus data
-    addressTree stack[MAX_SIZE], last, still, anak1, anak2, prev, priv, awalan;
-    List check, bagian, chick;
-    addressTree daun, tempDaun;
-	int lewat;
-	lewat = 0;
->>>>>>> 76c1952ac048cfaf55950a19da84431443230330
 
 
 void SeparateTree(addressTree *root) {
@@ -230,7 +220,7 @@ void SeparateTree(addressTree *root) {
     address isi;
     int i, j, count, top;
     
-    //membagi roor menjadi satu node pada setiap anaknya
+    //membagi root menjadi satu node pada setiap anaknya
     if (*root == Nil) {
         return;
     }
@@ -431,7 +421,3 @@ List Merge(array arr, int index)
 	
 	return(newNode);
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> 76c1952ac048cfaf55950a19da84431443230330
