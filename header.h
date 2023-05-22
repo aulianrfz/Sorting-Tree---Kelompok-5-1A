@@ -18,6 +18,7 @@
 #define MAX_SIZE 100
 
 typedef const char* value;
+
 typedef struct element *address;
 
 // LIST PERSEDIAAN BARANG
@@ -53,11 +54,12 @@ typedef struct Item{
 	int hargaJual;
 	int keuntungan;
 }Item;
+
 typedef Item array[MAX_SIZE];
 
-boolean IsEmpty (List L);
-
-void CreateList (List * L);
+boolean IsEmpty (List L); 
+ 
+void CreateList (List * L);  
 
 address Alokasi (List L);
 
@@ -65,17 +67,17 @@ void InsertNode(List *L);
 
 void PrintInfo(List L);
 
-int CountNode(List L);
+int CountNode(List L); 
 
-boolean IsEmptyTree(addressTree root);
+boolean IsEmptyTree(addressTree root); 
 
-addressTree CreateTree(List L);
+addressTree CreateTree(List L); 
 
 void CopyList(List L, List *copy);
 
 void SeparateNode(List *L, List *bagian1, List *bagian2);
 
-void SeparateTree(addressTree *root);
+void SeparateTree(addressTree *root); 
 
 void MergeTree(addressTree root, array *arr, int *index,int pilihan, int pilih);
 
@@ -90,5 +92,7 @@ void SwapItems(struct Item arr[], int j);
 void SaveFile(List L);
 
 void ReadDataFromFile(List L);
+
+boolean IsLeaf(addressTree node);
 
 #endif
