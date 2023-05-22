@@ -46,8 +46,8 @@ address Alokasi(List L)
 				Next(P) = Nil;
 			}
 			else{
-				printf("\t\t\t\t\t Harga jual yang anda masukkan kurang dari harga beli");
-				printf("\t\t\t\t\t Silakan masukkan ulang harga jual");
+				printf("\n\t\t\t\t\t\t\t\tMaaf, harga jual yang anda masukkan kurang dari harga beli");
+				printf("\n\t\t\t\t\t\t\t\tSilakan masukkan ulang harga jual!\n\n");
 			}
 		}while(Jual(P) < Beli(P));
 	}
@@ -88,9 +88,9 @@ void PrintInfo(List L){
 	{
 		still = P;
 		P = First(L);
-		printf("\t\t\t\t\t\t|:-----------:|:-----------:|:----------:|:----------:|:---------:|\n");
-		printf("\t\t\t\t\t\t| Nama Barang | Jumlah Stok | Harga Beli | Harga Jual | Keuntungan |\n");
-		printf("\t\t\t\t\t\t|:-----------:|:-----------:|:----------:|:----------:|:---------:|\n");
+		printf("\t\t\t\t\t\t\t\t|:-----------:|:-----------:|:----------:|:----------:|:---------:|\n");
+		printf("\t\t\t\t\t\t\t\t| Nama Barang | Jumlah Stok | Harga Beli | Harga Jual | Keuntungan |\n");
+		printf("\t\t\t\t\t\t\t\t|:-----------:|:-----------:|:----------:|:----------:|:---------:|\n");
 		while (P != Nil)
 		{
 			if (P == Nil)
@@ -100,12 +100,71 @@ void PrintInfo(List L){
 			}
 			else /* Belum berada di akhir List */
 			{
-				printf("\t\t\t\t\t\t|%12s |%12d |%11d |%11d |%10d |\n", Info(P), Stok(P), Beli(P), Jual(P), Keuntungan(P));
+				printf("\t\t\t\t\t\t\t\t|%12s |%12d |%11d |%11d |%10d |\n", Info(P), Stok(P), Beli(P), Jual(P), Keuntungan(P));
 				P = Next(P);
 			}
-			printf("\n");
+		}
+		printf("\t\t\t\t\t\t\t\t|:-----------:|:-----------:|:----------:|:----------:|:---------:|\n");
+	}
+}
+
+void SaveFile(List L)
+{
+	address P, still;
+
+	FILE* file = fopen("datamenu.txt", "a");
+	
+	if (file == Nil)
+	{
+		printf("Gagal membuka file,\n");
+		return;
+	}
+	
+	if (First(L) == Nil)
+	{
+		printf("\t\t\t\t\t\t\t\tList Kosong .... \a\n");
+	}
+	else /* List memiliki elemen */
+	{
+		still = P;
+		P = First(L);
+		while (P != Nil)
+		{
+			if (P == Nil)
+			{
+				printf("\n");
+				break;
+			}
+			else /* Belum berada di akhir List */
+			{
+				fprintf(file, "\t\t\t\t\t\t\t\t|%12s |%12d |%11d |%11d |%10d |\n", Info(P), Stok(P), Beli(P), Jual(P), Keuntungan(P));
+				P = Next(P);
+			}
 		}
 	}
+	fclose(file);
+}
+
+void ReadDataFromFile(List L)
+{
+	FILE *file = fopen("datamenu.txt", "r");
+	if (file == NULL)
+	{
+		
+		printf("gagal untuk membuka file. \n");
+		return;
+	}
+	printf("\t\t\t\t\t\t\t\t|:-----------:|:-----------:|:----------:|:----------:|:---------:|\n");
+	printf("\t\t\t\t\t\t\t\t| Nama Barang | Jumlah Stok | Harga Beli | Harga Jual | Keuntungan |\n");
+	printf("\t\t\t\t\t\t\t\t|:-----------:|:-----------:|:----------:|:----------:|:---------:|\n");
+	
+	char line[256];
+	while(fgets(line, sizeof(line), file))
+	{
+		printf("%s", line);
+	}
+	printf("\t\t\t\t\t\t\t\t|:-----------:|:-----------:|:----------:|:----------:|:---------:|\n");
+	fclose(file);
 }
 
 int CountNode(List L) {
@@ -256,13 +315,13 @@ void SeparateTree(addressTree *root) {
 	    				last->right = anak2;
 	    				still = last;
 	    				last = last->left;
-	    				printf("\\t\t\t\t\t\t\t\tn===================================\n");
-	    				printf("First half: ");
-	    				PrintInfo(bagian1);
-	    				printf("\\t\t\t\t\t\t\t\tn------------------------------------\n");
-						printf("Second half: ");
-	    				PrintInfo(bagian2);
-	    				printf("\n\t\t\t\t\t\t\t\t===================================\n");
+//	    				printf("\\t\t\t\t\t\t\t\tn===================================\n");
+//	    				printf("First half: ");
+//	    				PrintInfo(bagian1);
+//	    				printf("\\t\t\t\t\t\t\t\tn------------------------------------\n");
+//						printf("Second half: ");
+//	    				PrintInfo(bagian2);
+//	    				printf("\n\t\t\t\t\t\t\t\t===================================\n");
 	    				count = CountNode(bagian1);
 	    				if(count != 1)
 						{
@@ -384,6 +443,10 @@ void MergeTree(addressTree root, array *arr, int *index, int pilihan, int pilih)
     	isi = First(check);
     	count = CountNode(check);
     }
+    printf("\n\t\t\t\t\t\t\t\tSebelum di Sorting\n");
+    PrintInfo(InfoTree(root));
+    printf("\n\t\t\t\t\t\t\t\tSetelah di Sorting\n");
+    PrintInfo(InfoTree(baru));
 }
 
 List MergeList(array arr, int index, int pilihan, int pilih)
@@ -420,7 +483,7 @@ List MergeList(array arr, int index, int pilihan, int pilih)
 				}
 			}
 	}
-	PrintInfo(newNode);
+//	PrintInfo(newNode);
 	
 	return(newNode);
 }

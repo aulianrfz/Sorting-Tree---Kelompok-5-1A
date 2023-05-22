@@ -25,9 +25,8 @@ int main()
 		printf("\t\t\t\t\t\t ¦¦¦¦¦¦¦¦¦¦¦       ¦¦¦¦       ¦¦¦¦      ¦¦¦¦   ¦¦¦¦             ¦¦¦¦¦¦¦¦¦       ¦¦¦¦     ¦¦¦¦¦¦¦\n");   
 		printf("\t\t\t\t\t\t        ¦¦¦¦       ¦¦¦¦       ¦¦¦¦¦     ¦¦¦    ¦¦¦¦¦     ¦¦¦    ¦¦¦¦ ¦¦¦¦¦      ¦¦¦¦     ¦¦¦¦ ¦   ¦\n");
 		printf("\t\t\t\t\t\t¦¦¦¦¦¦¦¦¦¦¦        ¦¦¦¦¦       ¦¦¦¦¦¦¦¦¦¦¦      ¦¦¦¦¦¦¦¦¦¦¦     ¦¦¦¦¦ ¦¦¦¦¦¦    ¦¦¦¦¦    ¦¦¦¦¦¦¦¦¦¦\n");
-		printf("\t\t\t\t\t\t ¦¦¦¦¦¦¦¦¦        ¦¦¦¦¦          ¦¦¦¦¦¦¦         ¦¦¦¦¦¦¦¦¦     ¦¦¦¦¦   ¦¦¦¦    ¦¦¦¦¦    ¦¦¦¦¦¦¦¦¦¦\n");   
-		                                                                                                                                                                                                                                                                                                                                                                                                                     
-		printf("\n\t\t\t\t\t\t\t||==============================================================||\n");
+		printf("\t\t\t\t\t\t ¦¦¦¦¦¦¦¦¦        ¦¦¦¦¦          ¦¦¦¦¦¦¦         ¦¦¦¦¦¦¦¦¦     ¦¦¦¦¦   ¦¦¦¦    ¦¦¦¦¦    ¦¦¦¦¦¦¦¦¦¦\n");                                                                                                                                                                                                                                                                                                                                                                                                            
+		printf("\n\t\t\t\t\t\t\t\t||==============================================================||\n");
         printf("\t\t\t\t\t\t\t\t||==============|                                 |=============||\n");
         printf("\t\t\t\t\t\t\t\t||       <<<--- | Welcome To System Administrator | --->>>      ||\n");
         printf("\t\t\t\t\t\t\t\t||==============|                                 |=============||\n");
@@ -40,8 +39,11 @@ int main()
         printf("\t\t\t\t\t\t\t\t||                                                              ||\n");
         printf("\t\t\t\t\t\t\t\t|| ==>> 2. Tampilkan persediaan barang                          ||\n");
         printf("\t\t\t\t\t\t\t\t||______________________________________________________________||\n");
+    	printf("\t\t\t\t\t\t\t\t||                                                              ||\n");
+        printf("\t\t\t\t\t\t\t\t|| ==>> 3. Baca data dari File		                            ||\n");
+        printf("\t\t\t\t\t\t\t\t||______________________________________________________________||\n");
         printf("\t\t\t\t\t\t\t\t||                                                              ||\n");
-        printf("\t\t\t\t\t\t\t\t|| ==>> 3. Sort by                                              ||\n");
+        printf("\t\t\t\t\t\t\t\t|| ==>> 4. Sort by                                              ||\n");
         printf("\t\t\t\t\t\t\t\t||______________________________________________________________||\n");
         printf("\t\t\t\t\t\t\t\t||==============================================================||\n\n");
 		printf("\n\t\t\t\t\t\t\t\tPilih Menu : "); scanf("%d", &pilihan);
@@ -65,16 +67,21 @@ int main()
 				}
 				else
 				{
-					printf("\nList persediaan barang:\n\n");
-					PrintInfo(stokBarang);
+					printf("\n\t\t\t\t\t\t\t\tList persediaan barang:\n\n");
+					SaveFile(stokBarang);
+					ReadDataFromFile(stokBarang);
 				}
 			}
 			getchar();
 			system("cls");
 			break;
 		case 3 :
-			while (true){
-				printf("\t\t\t\t\t\t\t\tHal yang akan disorting : ");
+			ReadDataFromFile(stokBarang);
+			system("pause");
+			system("cls");
+			break;
+		case 4 :
+				printf("\n\t\t\t\t\t\t\t\tHal yang akan disorting : ");
 				printf("\n\t\t\t\t\t\t\t\t1. Stok Barang");
 				printf("\n\t\t\t\t\t\t\t\t2. Harga Beli");
 				printf("\n\t\t\t\t\t\t\t\t3. Harga Jual");
@@ -86,8 +93,7 @@ int main()
 				switch (pilihan)
 				{
 				case 1 :
-						while (true){
-							printf("\t\t\t\t\t\t\t\tSorting secara : ");
+							printf("\n\t\t\t\t\t\t\t\tSorting secara : ");
 							printf("\n\t\t\t\t\t\t\t\t1. Ascending");
 							printf("\n\t\t\t\t\t\t\t\t2. Descending");
 							printf("\n\t\t\t\t\t\t\t\t0. Back");
@@ -101,74 +107,20 @@ int main()
 								MergeSort(root, 1, 1);
 								getchar();
 								system("cls");
+								goto menu;
 								break;
 							case 2 :
 								root = CreateTree(stokBarang);	 
 								MergeSort(root, 1, 2);
 								getchar();
 								system("cls");
+								goto menu;
 								break;
 							case 0:
 								goto menu;
 							}
-						}
 				case 2 :
-						while (true){
-							printf("\t\t\t\t\t\t\t\tSorting secara : ");
-							printf("\n\t\t\t\t\t\t\t\t1. Ascending");
-							printf("\n\t\t\t\t\t\t\t\t2. Descending");
-							printf("\n\t\t\t\t\t\t\t\tPilihan : ");	
-							printf("\n\t\t\t\t\t\t\t\t0. Back");	
-							scanf("%d", &pilih);
-							getchar();
-							switch (pilih)
-							{
-							case 1 :
-								root = CreateTree(stokBarang);	 
-								MergeSort(root, 2, 1);
-								getchar();
-								system("cls");
-								break;
-							case 2 :
-								root = CreateTree(stokBarang);	 
-								MergeSort(root, 2, 2);
-								getchar();
-								system("cls");
-								break;
-							case 0:
-								goto menu;
-							}
-						}
-				case 3 :
-						while (true){
-							printf("\t\t\t\t\t\t\t\tSorting secara : ");
-							printf("\n\t\t\t\t\t\t\t\t1. Ascending");
-							printf("\n\t\t\t\t\t\t\t\t2. Descending");
-							printf("\n\t\t\t\t\t\t\t\tPilihan : ");	
-							printf("\n\t\t\t\t\t\t\t\t0. Back");	
-							scanf("%d", &pilih);
-							getchar();
-							switch (pilih)
-							{
-							case 1 :
-								root = CreateTree(stokBarang);	 
-								MergeSort(root, 3, 1);
-								getchar();
-								system("cls");
-								break;
-							case 2 :
-								root = CreateTree(stokBarang);	 
-								MergeSort(root, 3, 2);
-								getchar();
-								system("cls");
-								break;
-							case 0:
-								goto menu;
-							}
-						}
-				case 4 :
-						while (true){
-							printf("Sorting secara : ");
+							printf("\n\t\t\t\t\t\t\t\tSorting secara : ");
 							printf("\n\t\t\t\t\t\t\t\t1. Ascending");
 							printf("\n\t\t\t\t\t\t\t\t2. Descending");
 							printf("\n\t\t\t\t\t\t\t\t0. Back");
@@ -179,29 +131,83 @@ int main()
 							{
 							case 1 :
 								root = CreateTree(stokBarang);	 
+								MergeSort(root, 2, 1);
+								getchar();
+								system("cls");
+								goto menu;
+								break;
+							case 2 :
+								root = CreateTree(stokBarang);	 
+								MergeSort(root, 2, 2);
+								getchar();
+								system("cls");
+								goto menu;
+								break;
+							case 0:
+								goto menu;
+							}
+				case 3 :
+							printf("\n\t\t\t\t\t\t\t\tSorting secara : ");
+							printf("\n\t\t\t\t\t\t\t\t1. Ascending");
+							printf("\n\t\t\t\t\t\t\t\t2. Descending");
+							printf("\n\t\t\t\t\t\t\t\t0. Back");
+							printf("\n\t\t\t\t\t\t\t\tPilihan : ");		
+							scanf("%d", &pilih);
+							getchar();
+							switch (pilih)
+							{
+							case 1 :
+								root = CreateTree(stokBarang);	 
+								MergeSort(root, 3, 1);
+								getchar();
+								system("cls");
+								goto menu;
+								break;
+							case 2 :
+								root = CreateTree(stokBarang);	 
+								MergeSort(root, 3, 2);
+								getchar();
+								system("cls");
+								goto menu;
+								break;
+							case 0:
+								goto menu;
+							}
+				case 4 :
+							printf("\n\t\t\t\t\t\t\t\tSorting secara : ");
+							printf("\n\t\t\t\t\t\t\t\t1. Ascending");
+							printf("\n\t\t\t\t\t\t\t\t2. Descending");
+							printf("\n\t\t\t\t\t\t\t\tPilihan : ");		
+							printf("\n\t\t\t\t\t\t\t\tPilihan : ");	
+							scanf("%d", &pilih);
+							getchar();
+							switch (pilih)
+							{
+							case 1 :
+								root = CreateTree(stokBarang);	 
 								MergeSort(root, 4, 1);
 								getchar();
 								system("cls");
+								goto menu;
 								break;
 							case 2 :
 								root = CreateTree(stokBarang);	 
 								MergeSort(root, 4, 2);
 								getchar();
 								system("cls");
+								goto menu;
 								break;
 							case 0:
 								goto menu;
 							}
 						}
-					}
 				case 0:
 					goto menu;
-				}
 			getchar();
 			system("cls");
 			break;	
 		default:
-			printf("Input Salah...");
+			printf("\n\t\t\t\t\t\t\t\tInput Salah...");
 			getchar();
 			system("cls");
 			break;

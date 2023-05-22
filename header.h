@@ -87,4 +87,8 @@ void SortArray(struct Item arr[], int index, int pilihan, int pilih);
 
 void SwapItems(struct Item arr[], int j);
 
+void SaveFile(List L);
+
+void ReadDataFromFile(List L);
+
 #endif
